@@ -40,13 +40,14 @@ var dict1 = [{
   relationToPatient: "Brother",
   signature: "Mark Smith"
 }];
-var dictstring1 = JSON.stringify(dict1);
+//var dictstring1 = JSON.stringify(dict1);
 //var dictstring2 = JSON.stringify(dict2);
 //var dictArray= dictstring1+dictstring2
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send(dictstring1);
-});
+
+//router.get("/", function (req, res, next) {
+//  res.send(dictstring1);
+//});
 
 router.get('/:id',(req,res,next)=> {
     const {id} = req.params;
@@ -59,4 +60,17 @@ router.post('/',(req,res)=>{
     dict1.push(patient)
     res.status(201).send('Created Contact')
 })
+router.delete('/:id',(req,res,next)=> {
+    const {id} = req.params;
+    const patient = dict1.find((patient) => patient.id === Number(id));
+    if (patient) res.status(200).send("Contact with ID "+id+" has been deleted");
+    else res.status(404).send('Not Found')
+});
+router.put('/:id',(req,res,next)=> {
+    const {id} = req.params;
+    const patient = dict1.find((patient) => patient.id === Number(id));
+    if (patient) res.status(200).send("Contact with ID "+id+" has been updated");
+    else res.status(404).send('Not Found')
+})
+
 module.exports = router;
