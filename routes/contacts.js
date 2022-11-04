@@ -62,13 +62,13 @@ router.post('/',(req,res)=>{
 })
 router.delete('/:id',(req,res,next)=> {
     const {id} = req.params;
-    const patient = dict1.find((patient) => patient.id === Number(id));
+    const patient = dict1.find((patient) => patient.contactId === Number(id));
     if (patient) res.status(200).send("Contact with ID "+id+" has been deleted");
     else res.status(404).send('Not Found')
 });
 router.put('/:id',(req,res,next)=> {
     const {id} = req.params;
-    const patient = dict1.find((patient) => patient.id === Number(id));
+    const patient = dict1.find((patient) => patient.contactId === Number(id));
     if (patient) res.status(200).send("Contact with ID "+id+" has been updated");
     else res.status(404).send('Not Found')
 })
