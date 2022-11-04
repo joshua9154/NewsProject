@@ -73,5 +73,11 @@ router.get('/:id',(req,res,next)=> {
     if (patient) res.status(200).send(JSON.stringify(patient));
     else res.status(404).send('Not Found')
 });
+router.post('/',(req,res)=>{
+    const patient= req.body
+    dict1.push(patient)
+    res.status(201).send('Created Patient')
+})
+
 
 module.exports = router;
