@@ -1,5 +1,4 @@
 const express = require("express");
-const { DATETIME } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
 
@@ -9,7 +8,6 @@ router.get("/", (req, res) => {
 });
 
 router.get("/patient", (req, res) => {
-  //mysqlConnection.query("INSERT INTO 'Patient' (createdAt, modifiedAt, email, firstName ) VALUES (now(), now(), 'matt.j.smith@gmail.com', 'Matt')" ,(err, rows, fiels) => {
     pool.query("select * from Patient;" ,(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
@@ -20,12 +18,9 @@ router.get("/patient", (req, res) => {
   });
 });
 router.post("/", (req, res) => {
-  //mysqlConnection.query("INSERT INTO 'Patient' (createdAt, modifiedAt, email, firstName ) VALUES (now(), now(), 'matt.j.smith@gmail.com', 'Matt')" ,(err, rows, fiels) => {
     const patient= req.body
-   // console.log(patient.email)
- 
-    //pool.query("INSERT INTO Patient (createdAt, modifiedAt, email, firstName ) VALUES  ('2022-11-07T17:33:19.885Z','2022-11-07T17:33:19.000Z','" +patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','1971-01-01 00:00:01','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
-    pool.query("INSERT INTO Patient (createdAt, modifiedAt, email, firstName ) VALUES  (\""+ Date.now()+"\",\"2022-11-07T17:33:19.000Z\",\"" +patient.email+"\",\""+patient.firstName+"\");" ,(err, rows, fiels) => {  
+      pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','2007-05-08 12:35:29.123','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
+
     if (!err) {
       res.json(rows);
       console.log(fiels);
@@ -33,9 +28,10 @@ router.post("/", (req, res) => {
       console.log(err);
     }
   });
-     res.status(201).send("hi")
+     res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
   
 });
+
 router.post("/contact", (req, res) => {
    const contact= req.body
      
