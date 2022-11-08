@@ -91,9 +91,9 @@ router.get("/contact", (req, res) => {
   });
 });
 
-router.get('/contact/:id',(req,res,next)=> {
+router.get('/contact/record/:id',(req,res,next)=> {
     var contaId = req.params;
-       pool.query("select * From Contact Where contactId ="+contaId.id+";",(err, rows, fiels) => {  
+       pool.query("select * From Contact Where patientId ="+contaId.id+";",(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
