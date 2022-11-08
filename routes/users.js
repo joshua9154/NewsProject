@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
     const patient= req.body
    // console.log(patient.email)
     
-    pool.query("INSERT INTO Patient (id ,createdAt, modifiedAt, email, firstName, lastName, phone, ssn, dateOfBirth, street, city, state, zip, insuranceCompany, plan, groupNumber, medications, surgeries, familyHistory, addictions,questionnaire, signature, middleInitial) VALUES ("+patient.id+",'"+patient.createdAt+"','"+ patient.modifiedAt+"','" +patient.email+"',' "+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
+    pool.query("INSERT INTO Patient (id ,createdAt, modifiedAt, email, firstName, lastName, phone, ssn, dateOfBirth, street, city, state, zip, insuranceCompany, plan, groupNumber, medications, surgeries, familyHistory, addictions,questionnaire,contacts, signature, middleInitial) VALUES ("+patient.id+",'"+patient.createdAt+"','"+ patient.modifiedAt+"','" +patient.email+"',' "+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"',"+patient.medications+","+patient.surgeries+","+patient.familyHistory+","+patient.addictions+","+patient.questionnaire+","+patient.contacts+",'"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
@@ -31,6 +31,6 @@ router.post("/", (req, res) => {
       console.log(err);
     }
   });
-  res.status(201).send(err)
+  res.status(201).send(patient.id)
 });
 module.exports = router;
