@@ -34,8 +34,9 @@ router.post("/", (req, res) => {
 });
 
 router.delete('/:id',(req,res,next)=> {
-    const thisId = req.params;
-       pool.query("Delete From Patient Where id ="+thisId+";",(err, rows, fiels) => {  
+    var thisId = req.params;
+   
+       pool.query("Delete From Patient Where id ="+thisId.id+";",(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
@@ -44,7 +45,7 @@ router.delete('/:id',(req,res,next)=> {
       console.log(err);
     }
   });
-     res.status(201).send("Patient "+thisId+" has been patient list.")
+     res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
 
