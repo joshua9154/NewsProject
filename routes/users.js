@@ -4,7 +4,7 @@ const pool = require("../db/db");
 
 
 router.get("/", (req, res) => {
-  res.json("Hello");
+  res.json("Test");
 });
 
 router.get("/patient", (req, res) => {
@@ -48,6 +48,21 @@ router.delete('/:id',(req,res,next)=> {
   //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
+router.get('/:id',(req,res,next)=> {
+    var patId = req.params;
+   
+       pool.query("select * From Patient Where id ="+patId.id+";",(err, rows, fiels) => {  
+    if (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
+  
+});
 
 router.post("/contact", (req, res) => {
    var contact= req.body
@@ -74,6 +89,21 @@ router.get("/contact", (req, res) => {
       console.log(err);
     }
   });
+});
+
+router.get('/contact/:id',(req,res,next)=> {
+    var contaId = req.params;
+       pool.query("select * From Contact Where contactId ="+contaId.id+";",(err, rows, fiels) => {  
+    if (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
+  
 });
 
 router.delete('/contact/:id',(req,res,next)=> {
