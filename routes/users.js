@@ -19,7 +19,7 @@ router.get("/patient", (req, res) => {
 });
 router.post("/", (req, res) => {
     var patient= req.body
-      pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','2007-05-08 12:35:29.123','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
+      pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
 
     if (!err) {
       res.json(rows);
@@ -52,7 +52,7 @@ router.delete('/:id',(req,res,next)=> {
 router.post("/contact", (req, res) => {
    var contact= req.body
      
-    pool.query("INSERT INTO Contact (modifiedAt,patientId,firstName,lastName,phone,email,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature) VALUES ('2007-05-08 12:35:29.123',"+contact.patientId+",'"+contact.firstName+"','"+contact.lastName+"','"+contact.phone+"','"+contact.email+"','2007-05-08 12:35:29.123','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.relationToPatient+"','"+contact.type+"','"+contact.emergencyPriority+"','"+contact.signature+"');" ,(err, rows, fiels) => {  
+    pool.query("INSERT INTO Contact (modifiedAt,patientId,firstName,lastName,phone,email,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature) VALUES ('2007-05-08 12:35:29.123',"+contact.patientId+",'"+contact.firstName+"','"+contact.lastName+"','"+contact.phone+"','"+contact.email+"','"+contact.dateOfBirth+"','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.relationToPatient+"','"+contact.type+"','"+contact.emergencyPriority+"','"+contact.signature+"');" ,(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
