@@ -29,7 +29,7 @@ router.post("/", (req, res) => {
       console.log(err);
     }
   });
-     res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
+   //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
   
 });
 
@@ -45,7 +45,7 @@ router.delete('/:id',(req,res,next)=> {
       console.log(err);
     }
   });
-     res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
 
@@ -62,7 +62,7 @@ router.post("/contact", (req, res) => {
     }
   });
      
- res.status(201).send("Contact "+contact.firstName+" "+ contact.lastName +" has been added to the contact list for patient "+contact.patientId) 
+// res.status(201).send("Contact "+contact.firstName+" "+ contact.lastName +" has been added to the contact list for patient "+contact.patientId) 
 });
 
 router.get("/contact", (req, res) => {
@@ -75,4 +75,19 @@ router.get("/contact", (req, res) => {
     }
   });
 });
+
+router.delete('/contact/:id',(req,res,next)=> {
+    var conId = req.params;
+   
+       pool.query("Delete From Contact Where contactId ="+conId.id+";",(err, rows, fiels) => {  
+    if (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });
+  });
+  
 module.exports = router;
