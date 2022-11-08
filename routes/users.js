@@ -18,13 +18,14 @@ router.get("/patient", (req, res) => {
   });
 });
 router.post("/", (req, res) => {
-    const patient= req.body
+    var patient= req.body
       pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','2007-05-08 12:35:29.123','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
 
     if (!err) {
       res.json(rows);
       console.log(fiels);
     } else {
+      
       console.log(err);
     }
   });
@@ -32,14 +33,30 @@ router.post("/", (req, res) => {
   
 });
 
+router.delete('/:id',(req,res,next)=> {
+    const thisId = req.params;
+       pool.query("Delete From Patient Where id ="+thisId+";",(err, rows, fiels) => {  
+    if (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });
+     res.status(201).send("Patient "+thisId+" has been patient list.")
+  
+});
+
 router.post("/contact", (req, res) => {
-   const contact= req.body
+   var contact= req.body
      
     pool.query("INSERT INTO Contact (modifiedAt,patientId,firstName,lastName,phone,email,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature) VALUES ('2007-05-08 12:35:29.123',"+contact.patientId+",'"+contact.firstName+"','"+contact.lastName+"','"+contact.phone+"','"+contact.email+"','2007-05-08 12:35:29.123','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.relationToPatient+"','"+contact.type+"','"+contact.emergencyPriority+"','"+contact.signature+"');" ,(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
     } else {
+      
       console.log(err);
     }
   });
