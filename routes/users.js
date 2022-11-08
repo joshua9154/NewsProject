@@ -24,7 +24,7 @@ router.post("/", (req, res) => {
     const patient= req.body
    // console.log(patient.email)
     
-    pool.query("INSERT INTO Patient (id ,email, firstName, lastName, phone, ssn, dateOfBirth, street, city, state, zip, insuranceCompany, plan, groupNumber, medications, surgeries, familyHistory, addictions,questionnaire, signature) VALUES ("+patient.id+",'" +patient.email+"',' "+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','["+patient.medications+"]','["+patient.surgeries+"]','["+patient.familyHistory+"]','["+patient.addictions+"]','["+patient.questionnaire+"]','"+patient.signature+"');" ,(err, rows, fiels) => {  
+    pool.query("INSERT INTO Patient (id ,email, firstName, lastName, phone, ssn, street, city, state, zip, insuranceCompany, plan, groupNumber, medications, surgeries, familyHistory, addictions,questionnaire, signature) VALUES ("+patient.id+",'" +patient.email+"',' "+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','["+patient.medications+"]','["+patient.surgeries+"]','["+patient.familyHistory+"]','["+patient.addictions+"]','["+patient.questionnaire+"]','"+patient.signature+"');" ,(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
