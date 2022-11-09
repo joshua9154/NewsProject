@@ -5,6 +5,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var patientRouter = require("./routes/patient");
@@ -22,9 +23,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/index", indexRouter);
 app.use("/users", usersRouter);
-app.use("/patient", patientRouter);
+app.use("/", patientRouter);
 app.use("/contacts", contactsRouter);
 
 var listener = app.listen(8080, function () {
