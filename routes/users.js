@@ -64,6 +64,26 @@ router.get('/:id',(req,res,next)=> {
   //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
+router.get('/email/:id',(req,res,next)=> {
+    var emailId = req.params;
+   
+       pool.query("select * From Patient Where email ='"+emailId.id+"';",(err, rows, fiels) => {  
+         
+    if (rows<1)    {
+      res.status(404).send('Patient with email: '+emailId.id+ ' not found.')
+       console.log(fiels);
+    } 
+    else if (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
+  
+});
 
 router.post("/contact", (req, res) => {
    var contact= req.body
