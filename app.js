@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/index", indexRouter);
 app.use("/users", usersRouter);
-app.use("/", patientRouter);
+app.use("/patient", patientRouter);
 app.use("/contacts", contactsRouter);
 
 var listener = app.listen(8080, function () {
