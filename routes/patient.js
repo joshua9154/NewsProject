@@ -25,6 +25,7 @@ router.post("/", (req, res) => {
        pool.query("INSERT INTO Patients (title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms,signature) VALUES ('"+patient.title+"','"+patient.firstName+"','"+patient.middleInitial+"','"+patient.lastName+"','"+patient.phone+"','"+patient.email+"','"+patient.sex+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.cardHolder+"','"+med+"','"+all+"','"+sur+"','"+fam+"','"+add+"','"+que+"','"+sym+"','"+patient.signature+"');" ,(err, rows, fiels) => {  
 
     if (!err) {
+      
       res.json(rows);
       console.log(fiels);
     } else {

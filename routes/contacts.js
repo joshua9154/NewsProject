@@ -37,7 +37,7 @@ router.put("/", (req, res) => {
 
 
 
-router.get('/:id',(req,res,next)=> {
+router.get('/patient/:id',(req,res,next)=> {
     var contactId = req.params;
        pool.query("select * From Contacts Where patientId ="+contactId.id+";",(err, rows, fiels) => {  
     if (!err) {
@@ -54,6 +54,20 @@ router.get('/:id',(req,res,next)=> {
 router.get('/single/:id',(req,res,next)=> {
     var contatId = req.params;
        pool.query("select * From Contacts Where contactId ="+contatId.id+";",(err, rows, fiels) => {  
+    if (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
+  
+});
+
+router.get('/all/',(req,res,next)=> {
+       pool.query("select * From Contacts ;",(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
       console.log(fiels);
