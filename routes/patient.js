@@ -1,13 +1,19 @@
 const express = require("express");
-const { JSON } = require("mysql/lib/protocol/constants/types");
+//const { JSON } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
 
 router.get("/", (req, res) => {
     pool.query("select * from Patients;" ,(err, rows, fiels) => {  
-      
+       data=JSON.stringify(rows)
+       data= data.replace(/\\/g, '');
+       data2 = data.replace(/"{/g, `{`)
+       data3 = data2.replace(/}"/g, `}`)
+       
+      // result = JSON.parse(data3)
+       res.send(data3)
     if (!err) {
-      res.json(rows);
+     // res.json(result);
       console.log(fiels);
     } else {
       console.log(err);
@@ -16,7 +22,15 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
      var patient= req.body
-     med= JSON.stringify(patient.medications)
+    // console.log(patient)
+   //  med=JSON.stringify(patient.medications)
+    // all=JSON.stringify(patient.allergies)
+   //  sur=JSON.stringify(patient.surgeries)
+   //  que=JSON.stringify(patient.questionnaire)
+   //  sym=JSON.stringify(patient.symptoms)
+   //  fam=JSON.stringify(patient.familyHistory)
+   //  add=JSON.stringify(patient.addictions)
+     med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
      sur=JSON.stringify(patient.surgeries)
      que=JSON.stringify(patient.questionnaire)
@@ -40,7 +54,7 @@ router.post("/", (req, res) => {
 
 router.put("/", (req, res) => {
     var patient= req.body
-     med= JSON.stringify(patient.medications)
+     med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
      sur=JSON.stringify(patient.surgeries)
      que=JSON.stringify(patient.questionnaire)
