@@ -126,9 +126,38 @@ router.delete('/:id',(req,res,next)=> {
   if(validatePatientId(contact.patientId)){
    return "Please use a real patientId not "+ contact.patientId+"."
    }
-  
+  if(validateMiddleInitial(contact.middleInitial)){
+   return "Please use a single letter for middle initial not "+ contact.middleInitial+"."
+   }
+   if(validateLetters(contact.firstName)){
+   return "Please use only letters in firstName "+ contact.firstName+"."
+   }
+   if(validateLetters(contact.lastName)){
+   return "Please use only letters in lastName "+ contact.lastName+"."
+   }
   return  "ok"
 }
+
+function validateLetters(word) {
+   
+  
+    if(!(/^[a-zA-Z]+$/.test(word))){
+     return true
+   }
+   return false
+}
+
+function validateMiddleInitial(middleInitial) {
+   
+    if(middleInitial.length >1){
+     return true
+   }
+    if(!(/^[a-zA-Z]+$/.test(middleInitial))){
+     return true
+   }
+   return false
+}
+
 
 function validatePatientId(patientId) {
    
