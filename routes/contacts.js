@@ -103,13 +103,116 @@ router.delete('/:id',(req,res,next)=> {
   function validateContact(contact) {
   result="ok"
   if(validateTitle(contact.title)){
-    return "Please use titles Mr, Mrs, Ms or Miss not "+ contact.title+"."
+    return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
   }
   if(validateType(contact.type)){
     return "Please use types Guardian, Family, Freind, Family, Doctor, or Pharmacy not "+ contact.type+"."
   }
+   if(validateGuardian(contact)){
+    return "Please make sure all attributes all filled out for Guardian."
+  }
+   if(validateFamily(contact)){
+    return "Please make sure all attributes all filled out for Family."
+  }
+  if(validateFreind(contact)){
+    return "Please make sure all attributes all filled out for Freind."
+  }
+  if(validateDoctor(contact)){
+    return "Please make sure all attributes all filled out for Doctor."
+  }
+  if(validatePharmacy(contact)){
+    return "Please make sure all attributes all filled out for Pharmacy."
+  }
+  
+  
   return result
 }
+
+function validatePharmacy(contact) {
+   
+    if(contact.type.toLowerCase()!= "pharmacy"){
+     return false
+   }
+  return false
+}
+
+function validateDoctor(contact) {
+   
+    if(contact.type.toLowerCase()!= "doctor"){
+     return false
+   }
+   if(contact.lastName==""){
+     return true
+   }
+  return false
+}
+
+
+function validateFreind(contact) {
+   
+    if(contact.type.toLowerCase()!= "freind"){
+     return false
+   }
+   if(contact.lastName==""){
+     return true
+   }
+  return false
+}
+
+function validateFamily(contact) {
+   
+    if(contact.type.toLowerCase()!= "family"){
+     return false
+   }
+    if(contact.title== ""){
+     return true
+   }
+   if(contact.lastName==""){
+     return true
+   }
+   if(contact.sex==""){
+     return true
+   }
+   if(contact.dateOfBirth==""){
+     return true
+   }
+   if(contact.relationToPatient==""){
+     return true
+   }
+   if(contact.emergencyPriority==""){
+     return true
+   }
+  return false
+}
+function validateGuardian(contact) {
+   
+    if(contact.type.toLowerCase()!= "guardian"){
+     return false
+   }
+    if(contact.title== ""){
+     return true
+   }
+   if(contact.lastName==""){
+     return true
+   }
+   if(contact.sex==""){
+     return true
+   }
+   if(contact.dateOfBirth==""){
+     return true
+   }
+   if(contact.relationToPatient==""){
+     return true
+   }
+   if(contact.emergencyPriority==""){
+     return true
+   }
+    if(contact.signature==""){
+     return true
+   }
+  return false
+}
+
 
 function validateType(type) {
    input= type.toLowerCase();
@@ -146,6 +249,9 @@ function validateTitle(title) {
      return false
    }
    if(input=="miss"){
+     return false
+   }
+    if(input=="dr"){
      return false
    }
   return true
