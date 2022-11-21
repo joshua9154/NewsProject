@@ -1,10 +1,11 @@
 const express = require("express");
+const { JSON } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
 
 router.get("/", (req, res) => {
     pool.query("select * from Patients;" ,(err, rows, fiels) => {  
-   
+      
     if (!err) {
       res.json(rows);
       console.log(fiels);
