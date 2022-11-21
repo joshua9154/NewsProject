@@ -31,6 +31,7 @@ router.post("/", (req, res) => {
    //  sym=JSON.stringify(patient.symptoms)
    //  fam=JSON.stringify(patient.familyHistory)
    //  add=JSON.stringify(patient.addictions)
+    if (validatePatient(patient)=="ok"){
      med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
      sur=JSON.stringify(patient.surgeries)
@@ -50,11 +51,15 @@ router.post("/", (req, res) => {
     }
   });
    //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
-  
+    }
+     else{
+      res.send(validatePatient(patient))
+    }
 });
 
 router.put("/", (req, res) => {
     var patient= req.body
+    if (validatePatient(patient)=="ok"){
      med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
      sur=JSON.stringify(patient.surgeries)
@@ -76,7 +81,10 @@ router.put("/", (req, res) => {
     }
   });
    //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
-  
+    }
+    else{
+      res.send(validatePatient(patient))
+    }
 });
 
 router.delete('/:id',(req,res,next)=> {
@@ -144,5 +152,33 @@ router.get('/email/:id',(req,res,next)=> {
   //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
+
+function validatePatient(patient) {
+  result="ok"
+  if(validateTitle(patient.title)){
+    return "Please use titles Mr, Mrs, Ms or Miss not "+ patient.title+"."
+  }
+  return result
+}
+
+function validateTitle(title) {
+   input= title.toLowerCase();
+    if(input==""){
+     return false
+   }
+   if(input=="mr"){
+     return false
+   }
+   if(input=="mrs"){
+     return false
+   }
+   if(input=="ms"){
+     return false
+   }
+   if(input=="miss"){
+     return false
+   }
+  return true
+}
 
 module.exports = router;
