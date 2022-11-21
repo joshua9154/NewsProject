@@ -101,7 +101,7 @@ router.delete('/:id',(req,res,next)=> {
   });
   
   function validateContact(contact) {
-  result="ok"
+  //result="ok"
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
   }
@@ -123,10 +123,22 @@ router.delete('/:id',(req,res,next)=> {
   if(validatePharmacy(contact)){
     return "Please make sure all attributes all filled out for Pharmacy."
   }
+  if(validatePatientId(contact.patientId)){
+   return "Please use a real patientId not "+ contact.patientId+"."
+   }
   
-  
-  return result
+  return  "ok"
 }
+
+function validatePatientId(patientId) {
+   
+    if(patientId == ""){
+     return true
+   }
+
+   return false
+}
+
 
 function validatePharmacy(contact) {
    
