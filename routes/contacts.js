@@ -216,6 +216,9 @@ function validateGuardian(contact) {
 
 function validateType(type) {
    input= type.toLowerCase();
+    if(input==""){
+     return true
+   }
     if(input=="guardian"){
      return false
    }
