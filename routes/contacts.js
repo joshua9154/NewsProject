@@ -99,12 +99,36 @@ router.delete('/:id',(req,res,next)=> {
     }
   });
   });
+  
   function validateContact(contact) {
   result="ok"
   if(validateTitle(contact.title)){
     return "Please use titles Mr, Mrs, Ms or Miss not "+ contact.title+"."
   }
+  if(validateType(contact.type)){
+    return "Please use types Guardian, Family, Freind, Family, Doctor, or Pharmacy not "+ contact.type+"."
+  }
   return result
+}
+
+function validateType(type) {
+   input= type.toLowerCase();
+    if(input=="guardian"){
+     return false
+   }
+   if(input=="family"){
+     return false
+   }
+   if(input=="freind"){
+     return false
+   }
+   if(input=="doctor"){
+     return false
+   }
+   if(input=="pharmacy"){
+     return false
+   }
+  return true
 }
 
 function validateTitle(title) {
