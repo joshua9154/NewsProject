@@ -129,12 +129,12 @@ router.get('/email/:id',(req,res,next)=> {
        console.log(fiels);
     } 
     else if (!err) {
-         data=JSON.stringify(rows)
+      data=JSON.stringify(rows)
        data= data.replace(/\\/g, '');
        data2 = data.replace(/"{/g, `{`)
        data3 = data2.replace(/}"/g, `}`)
        result= JSON.parse(data3)
-        res.send(result)
+       res.send(result)
       console.log(fiels);
     } else {
       
