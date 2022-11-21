@@ -135,11 +135,35 @@ router.delete('/:id',(req,res,next)=> {
    if(validateLetters(contact.lastName)){
    return "Please use only letters in lastName "+ contact.lastName+"."
    }
+    if(validatePhone(contact.phone)){
+   return "Please use only numbers in phone not "+ contact.phone+"."
+   }
+     if(validateEmail(contact.email)){
+   return "Please use only valid email addresses not "+ contact.email+"."
+   }
   return  "ok"
 }
 
-function validateLetters(word) {
+function validateEmail(email) {
+  
    
+   if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+  {
+    return true
+  }
+   return false
+}
+
+function validatePhone(phone) {
+  
+    if(!(/^[0-9]+$/.test(phone))){
+     return true
+   }
+   return false
+}
+
+
+function validateLetters(word) {
   
     if(!(/^[a-zA-Z]+$/.test(word))){
      return true
