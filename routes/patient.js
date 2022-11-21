@@ -9,7 +9,6 @@ router.get("/", (req, res) => {
        data= data.replace(/\\/g, '');
        data2 = data.replace(/"{/g, `{`)
        data3 = data2.replace(/}"/g, `}`)
-   
        result= JSON.parse(data3)
     
     
@@ -99,11 +98,17 @@ router.delete('/:id',(req,res,next)=> {
 
 router.get('/single/:id',(req,res,next)=> {
     var patId = req.params;
+    
    
        pool.query("select * From Patients Where id ="+patId.id+";",(err, rows, fiels) => {  
+          data=JSON.stringify(rows)
+       data= data.replace(/\\/g, '');
+       data2 = data.replace(/"{/g, `{`)
+       data3 = data2.replace(/}"/g, `}`)
+       result= JSON.parse(data3)
         
     if (!err) {
-      res.json(rows);
+        res.send(result)
       console.log(fiels);
     } else {
       
@@ -124,7 +129,12 @@ router.get('/email/:id',(req,res,next)=> {
        console.log(fiels);
     } 
     else if (!err) {
-      res.json(rows);
+         data=JSON.stringify(rows)
+       data= data.replace(/\\/g, '');
+       data2 = data.replace(/"{/g, `{`)
+       data3 = data2.replace(/}"/g, `}`)
+       result= JSON.parse(data3)
+        res.send(result)
       console.log(fiels);
     } else {
       
