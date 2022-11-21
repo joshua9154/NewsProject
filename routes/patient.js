@@ -53,7 +53,7 @@ router.post("/", (req, res) => {
    //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
     }
      else{
-      res.send(validatePatient(patient))
+      res.status(400).send(validatePatient(patient))
     }
 });
 
@@ -83,7 +83,7 @@ router.put("/", (req, res) => {
    //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
     }
     else{
-      res.send(validatePatient(patient))
+      res.status(400).send(validatePatient(patient))
     }
 });
 
