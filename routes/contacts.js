@@ -153,7 +153,37 @@ router.delete('/:id',(req,res,next)=> {
     if(validateCity(contact.city)){
    return "Please use only letters for city not "+ contact.city+"."
    }
+    if(validateStreet(contact.street)){
+   return "Please use only valid street adresses not "+ contact.street+"."
+   }
+     if(validateDob(contact.dateOfBirth)){
+   return "Please use only valid date of births not "+ contact.dateOfBirth+"."
+   }
+    if(validateLetters(contact.relationToPatient)){
+   return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
+   }
+     if(validatePhone(contact.emergencyPriority)){
+   return "Please use only use numbers in emergency priority not "+ contact.emergencyPriority+"."
+   }
+    if(validateLetters(contact.signature)){
+   return "Please use only use letters in signature not "+ contact.signature+"."
+   }
   return  "ok"
+}
+
+function validateDob(dob) {
+  
+     if(dob == ""){
+     return true
+   }
+   return false
+}
+function validateStreet(street) {
+  
+     if(street == ""){
+     return true
+   }
+   return false
 }
 function validateCity(city) {
   
