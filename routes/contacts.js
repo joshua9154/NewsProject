@@ -141,7 +141,73 @@ router.delete('/:id',(req,res,next)=> {
      if(validateEmail(contact.email)){
    return "Please use only valid email addresses not "+ contact.email+"."
    }
+    if(validateSex(contact.sex)){
+   return "Please use only male and female for sex not "+ contact.sex+"."
+   }
+    if(validateZip(contact.zip)){
+   return "Please use a five diget number for zip not "+ contact.zip+"."
+   }
+    if(validateState(contact.state)){
+   return "Please use two letters for state not "+ contact.state+"."
+   }
+    if(validateCity(contact.city)){
+   return "Please use only letters for city not "+ contact.city+"."
+   }
   return  "ok"
+}
+function validateCity(city) {
+  
+    if(!(/^[A-Za-z\s]*$/.test(city))){
+     return true
+   }
+     if(city == ""){
+     return true
+   }
+   return false
+}
+
+function validateState(state) {
+  
+    if(!(/^[a-zA-Z]+$/.test(state))){
+     return true
+   }
+   if(state.length !=2){
+     return true
+   }
+     if(state == ""){
+     return true
+   }
+   return false
+}
+
+function validateZip(zip) {
+  
+    if(!(/^[0-9]+$/.test(zip))){
+     return true
+   }
+   if(zip.length !=5){
+     return true
+   }
+     if(zip == ""){
+     return true
+   }
+   
+   return false
+}
+
+function validateSex(sex) {
+   input= sex.toLowerCase();
+    if(input==""){
+     return false
+   }
+   if(input=="male"){
+     return false
+   }
+   if(input=="female"){
+     return false
+   }
+  
+  return true
 }
 
 function validateEmail(email) {
