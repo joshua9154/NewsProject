@@ -9,11 +9,13 @@ router.get("/", (req, res) => {
        data= data.replace(/\\/g, '');
        data2 = data.replace(/"{/g, `{`)
        data3 = data2.replace(/}"/g, `}`)
-       
-      // result = JSON.parse(data3)
-       res.send(data3)
+   
+       result= JSON.parse(data3)
+    
+    
     if (!err) {
-     // res.json(result);
+        res.send(result)
+     // res.json(rows);
       console.log(fiels);
     } else {
       console.log(err);
