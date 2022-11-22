@@ -170,9 +170,9 @@ router.get('/email/:id',(req,res,next)=> {
     if(validatePhone(contact.phone)){
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
-     if(validateEmail(contact.email)){
-   return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
-   }
+ //   if(validateEmail(contact.email)){
+  //  return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
+   // }
     if(validateSex(contact.sex)){
    return "Please use only male and female for sex not "+ contact.sex+"."
    }
@@ -300,9 +300,9 @@ function validateEmail(email) {
   {
     return true
   }
-   pool.query("select * From Patients Where email ='"+email+"';",(err, rows, fiels) => {  
-      if (rows<1){
-        result=false
+   pool.query("select * From Patients Where email ='"+email.id+"';",(err, rows, fiels) => {  
+      if (rows.id<1){
+        return false
       }
      if (!err) {
      
@@ -313,7 +313,7 @@ function validateEmail(email) {
     }
    
      });
-   return result
+   return true
 }
 
 function validateNumber(phone) {
