@@ -167,7 +167,7 @@ router.get('/email/:id',(req,res,next)=> {
    if(validateLettersNotNull(contact.lastName)){
    return "Please use only letters in lastName "+ contact.lastName+"."
    }
-    if(validateNumber(contact.phone)){
+    if(validatePhone(contact.phone)){
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
      if(validateEmail(contact.email)){
@@ -306,6 +306,18 @@ function validateEmail(email) {
 function validateNumber(phone) {
   
     if(!(/^[0-9]+$/.test(phone))){
+     return true
+   }
+   
+     if(phone== ""){
+     return true
+   }
+   return false
+}
+
+function validatePhone(phone) {
+  
+    if(!(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(phone))){
      return true
    }
    
