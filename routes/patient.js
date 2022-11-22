@@ -171,7 +171,7 @@ router.get('/email/:id',(req,res,next)=> {
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
      if(validateEmail(contact.email)){
-   return "Please use only valid email addresses not "+ contact.email+"."
+   return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
    }
     if(validateSex(contact.sex)){
    return "Please use only male and female for sex not "+ contact.sex+"."
@@ -295,12 +295,25 @@ function validateSex(sex) {
 
 function validateEmail(email) {
   
-   
+   result=true
    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
   {
     return true
   }
-   return false
+   pool.query("select * From Patients Where email ='"+email+"';",(err, rows, fiels) => {  
+      if (rows<1){
+        result=false
+      }
+     if (!err) {
+     
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+   
+     });
+   return result
 }
 
 function validateNumber(phone) {

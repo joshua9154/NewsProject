@@ -123,7 +123,7 @@ router.delete('/:id',(req,res,next)=> {
   if(validatePharmacy(contact)){
     return "Please make sure all attributes all filled out for Pharmacy."
   }
-  if(validatePatientId(contact.patientId)){
+  if(validateId(contact.patientId)){
    return "Please use a real patientId not "+ contact.patientId+"."
    }
   if(validateMiddleInitial(contact.middleInitial)){
@@ -171,6 +171,28 @@ router.delete('/:id',(req,res,next)=> {
    return "Please use only use numbers in emergency priority not "+ contact.emergencyPriority+"."
    }
   return  "ok"
+}
+
+function validateId(patientId) {
+    if(patientId == ""){
+     return true
+   }
+   result=false
+  
+   pool.query("select * From Patients Where id ="+patientId+";",(err, rows, fiels) => {  
+      if (rows<1){
+        result=true
+      }
+     if (!err) {
+     
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+   
+     });
+   return result
 }
 
 function validateDob(dob) {
@@ -280,15 +302,6 @@ function validateMiddleInitial(middleInitial) {
    return false
 }
 
-
-function validatePatientId(patientId) {
-   
-    if(patientId == ""){
-     return true
-   }
-
-   return false
-}
 
 
 function validatePharmacy(contact) {
