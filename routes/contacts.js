@@ -162,11 +162,13 @@ router.delete('/:id',(req,res,next)=> {
     if(validateLetters(contact.relationToPatient)){
    return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
    }
-     if(validatePhone(contact.emergencyPriority)){
-   return "Please use only use numbers in emergency priority not "+ contact.emergencyPriority+"."
-   }
+   
+   
     if(validateLetters(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
+   }
+     if(validatePhone(contact.emergencyPriority)){
+   return "Please use only use numbers in emergency priority not "+ contact.emergencyPriority+"."
    }
   return  "ok"
 }

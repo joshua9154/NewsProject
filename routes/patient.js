@@ -152,8 +152,198 @@ router.get('/email/:id',(req,res,next)=> {
   //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
+ function validatePatient(contact) {
+  //result="ok"
+  
+  if(validateTitle(contact.title)){
+    return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
+  }
+  if(validateMiddleInitial(contact.middleInitial)){
+   return "Please use a single letter for middle initial not "+ contact.middleInitial+"."
+   }
+   if(validateLetters(contact.firstName)){
+   return "Please use only letters in firstName "+ contact.firstName+"."
+   }
+   if(validateLetters(contact.lastName)){
+   return "Please use only letters in lastName "+ contact.lastName+"."
+   }
+    if(validatePhone(contact.phone)){
+   return "Please use only numbers in phone not "+ contact.phone+"."
+   }
+     if(validateEmail(contact.email)){
+   return "Please use only valid email addresses not "+ contact.email+"."
+   }
+    if(validateSex(contact.sex)){
+   return "Please use only male and female for sex not "+ contact.sex+"."
+   }
+    if(validateZip(contact.zip)){
+   return "Please use a five diget number for zip not "+ contact.zip+"."
+   }
+    if(validateState(contact.state)){
+   return "Please use two letters for state not "+ contact.state+"."
+   }
+    if(validateCity(contact.city)){
+   return "Please use only letters for city not "+ contact.city+"."
+   }
+    if(validateStreet(contact.street)){
+   return "Please use only valid street adresses not "+ contact.street+"."
+   }
+     if(validateDob(contact.dateOfBirth)){
+   return "Please use only valid date of births not "+ contact.dateOfBirth+"."
+   }
+    if(validateLetters(contact.relationToPatient)){
+   return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
+   }
+    if(validateLetters(contact.signature)){
+   return "Please use only use letters in signature not "+ contact.signature+"."
+   }
+     if(validateSSN(contact.ssn)){
+   return "Please use only use proper ss format not "+ contact.ssn+"."
+   }
+  return  "ok"
+}
 
-function validatePatient(patient) {
+function validateSSN(ssn) {
+  
+    if(!(/^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$/.test(ssn))){
+     return true
+   }
+   return false
+}
+
+
+function validateDob(dob) {
+  
+     if(dob == ""){
+     return true
+   }
+   return false
+}
+function validateStreet(street) {
+  
+     if(street == ""){
+     return true
+   }
+   return false
+}
+function validateCity(city) {
+  
+    if(!(/^[A-Za-z\s]*$/.test(city))){
+     return true
+   }
+     if(city == ""){
+     return true
+   }
+   return false
+}
+
+function validateState(state) {
+  
+    if(!(/^[a-zA-Z]+$/.test(state))){
+     return true
+   }
+   if(state.length !=2){
+     return true
+   }
+     if(state == ""){
+     return true
+   }
+   return false
+}
+
+function validateZip(zip) {
+  
+    if(!(/^[0-9]+$/.test(zip))){
+     return true
+   }
+   if(zip.length !=5){
+     return true
+   }
+     if(zip == ""){
+     return true
+   }
+   
+   return false
+}
+
+function validateSex(sex) {
+   input= sex.toLowerCase();
+    if(input==""){
+     return false
+   }
+   if(input=="male"){
+     return false
+   }
+   if(input=="female"){
+     return false
+   }
+  
+  return true
+}
+
+function validateEmail(email) {
+  
+   
+   if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+  {
+    return true
+  }
+   return false
+}
+
+function validatePhone(phone) {
+  
+    if(!(/^[0-9]+$/.test(phone))){
+     return true
+   }
+   return false
+}
+
+
+function validateLetters(word) {
+  
+    if(!(/^[A-Za-z\s]*$/.test(word))){
+     return true
+   }
+   return false
+}
+
+function validateMiddleInitial(middleInitial) {
+   
+    if(middleInitial.length >1){
+     return true
+   }
+    if(!(/^[a-zA-Z]+$/.test(middleInitial))){
+     return true
+   }
+   return false
+}
+
+
+function validateTitle(title) {
+   input= title.toLowerCase();
+    if(input==""){
+     return false
+   }
+   if(input=="mr"){
+     return false
+   }
+   if(input=="mrs"){
+     return false
+   }
+   if(input=="ms"){
+     return false
+   }
+   if(input=="miss"){
+     return false
+   }
+    if(input=="dr"){
+     return false
+   }
+  return true
+}
+
+function validatePatiednt(patient) {
   result="ok"
   if(validateTitle(patient.title)){
     return "Please use titles Mr, Mrs, Ms or Miss not "+ patient.title+"."
