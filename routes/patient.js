@@ -200,6 +200,15 @@ router.get('/email/:id',(req,res,next)=> {
      if(validateSSN(contact.ssn)){
    return "Please use only use proper ss format not "+ contact.ssn+"."
    }
+   if(validateLettersNotNull(contact.plan)){
+   return "Please use only use letters in plan not "+ contact.plan+"."
+   }
+   if(validateLettersNotNull(contact.cardHolder)){
+   return "Please use only use letters in cardHolder not "+ contact.cardHolder+"."
+   }
+    if(validateLettersNotNull(contact.insuranceCompany)){
+   return "Please use only use letters in insuranceCompany not "+ contact.insuranceCompany+"."
+   }
   return  "ok"
 }
 
@@ -308,6 +317,17 @@ function validateLetters(word) {
    return false
 }
 
+function validateLettersNotNull(word) {
+  
+    if(!(/^[A-Za-z\s]*$/.test(word))){
+     return true
+   }
+    if(word==""){
+     return true
+   }
+   return false
+}
+
 function validateMiddleInitial(middleInitial) {
    
     if(middleInitial.length >1){
@@ -343,32 +363,5 @@ function validateTitle(title) {
   return true
 }
 
-function validatePatiednt(patient) {
-  result="ok"
-  if(validateTitle(patient.title)){
-    return "Please use titles Mr, Mrs, Ms or Miss not "+ patient.title+"."
-  }
-  return result
-}
-
-function validateTitle(title) {
-   input= title.toLowerCase();
-    if(input==""){
-     return false
-   }
-   if(input=="mr"){
-     return false
-   }
-   if(input=="mrs"){
-     return false
-   }
-   if(input=="ms"){
-     return false
-   }
-   if(input=="miss"){
-     return false
-   }
-  return true
-}
 
 module.exports = router;
