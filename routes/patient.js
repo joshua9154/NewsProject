@@ -161,13 +161,13 @@ router.get('/email/:id',(req,res,next)=> {
   if(validateMiddleInitial(contact.middleInitial)){
    return "Please use a single letter for middle initial not "+ contact.middleInitial+"."
    }
-   if(validateLetters(contact.firstName)){
+   if(validateLettersNotNull(contact.firstName)){
    return "Please use only letters in firstName "+ contact.firstName+"."
    }
-   if(validateLetters(contact.lastName)){
+   if(validateLettersNotNull(contact.lastName)){
    return "Please use only letters in lastName "+ contact.lastName+"."
    }
-    if(validatePhone(contact.phone)){
+    if(validateNumber(contact.phone)){
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
      if(validateEmail(contact.email)){
@@ -208,6 +208,9 @@ router.get('/email/:id',(req,res,next)=> {
    }
     if(validateLettersNotNull(contact.insuranceCompany)){
    return "Please use only use letters in insuranceCompany not "+ contact.insuranceCompany+"."
+   }
+   if(validateNumber(contact.groupNumber)){
+   return "Please use only use numbers in group number not "+ contact.groupNumber+"."
    }
   return  "ok"
 }
@@ -300,9 +303,13 @@ function validateEmail(email) {
    return false
 }
 
-function validatePhone(phone) {
+function validateNumber(phone) {
   
     if(!(/^[0-9]+$/.test(phone))){
+     return true
+   }
+   
+     if(phone== ""){
      return true
    }
    return false
