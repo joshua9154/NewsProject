@@ -1,4 +1,6 @@
 const express = require("express");
+const async = require("hbs/lib/async");
+//const async = require("hbs/lib/async");
 //const { JSON } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
@@ -21,7 +23,7 @@ router.get("/", (req, res) => {
     }
   });
 });
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
      var patient= req.body
     // console.log(patient)
    //  med=JSON.stringify(patient.medications)
@@ -31,7 +33,8 @@ router.post("/", (req, res) => {
    //  sym=JSON.stringify(patient.symptoms)
    //  fam=JSON.stringify(patient.familyHistory)
    //  add=JSON.stringify(patient.addictions)
-    if (validatePatient(patient)=="ok"){
+    result = await validatePatient(patient)
+    if ( result=="ok"){
      med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
      sur=JSON.stringify(patient.surgeries)
@@ -53,13 +56,14 @@ router.post("/", (req, res) => {
    //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
     }
      else{
-      res.status(400).send(validatePatient(patient))
+      res.status(400).send(result)
     }
 });
 
-router.put("/", (req, res) => {
+router.put("/", async  (req, res) => {
     var patient= req.body
-    if (validatePatient(patient)=="ok"){
+     result= await validatePatient(patient);
+    if (result=="ok"){
      med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
      sur=JSON.stringify(patient.surgeries)
@@ -83,7 +87,7 @@ router.put("/", (req, res) => {
    //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
     }
     else{
-      res.status(400).send(validatePatient(patient))
+      res.status(400).send(result)
     }
 });
 
@@ -152,7 +156,7 @@ router.get('/email/:id',(req,res,next)=> {
   //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
   
 });
- function validatePatient(contact) {
+ async function validatePatient(contact) {
   //result="ok"
   
   if(validateTitle(contact.title)){
@@ -170,9 +174,11 @@ router.get('/email/:id',(req,res,next)=> {
     if(validatePhone(contact.phone)){
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
- //   if(validateEmail(contact.email)){
-  //  return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
-   // }
+    var result= await emails(contact.email);
+     
+    if(result){
+   return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
+   }
     if(validateSex(contact.sex)){
    return "Please use only male and female for sex not "+ contact.sex+"."
    }
@@ -292,28 +298,34 @@ function validateSex(sex) {
   
   return true
 }
-
-function validateEmail(email) {
-  
-   result=true
-   if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
-  {
-    return true
-  }
-   pool.query("select * From Patients Where email ='"+email.id+"';",(err, rows, fiels) => {  
-      if (rows.id<1){
-        return false
-      }
-     if (!err) {
-     
-      console.log(fiels);
-    } else {
-      
-      console.log(err);
-    }
    
-     });
-   return true
+   
+  async function emails(email){
+   
+  let myPromise = new Promise(function(resolve, reject) {
+    
+    pool.query("select * From Patients Where email ='"+email+"';",(err, rows, fiels) => {  
+    
+     if (!err) {
+     res= JSON.stringify(rows)
+     if  (res[3]==undefined){
+         resolve(false)
+         }else
+         {
+        
+           resolve(true)
+         }
+         }
+    else{
+          
+        }
+         });
+ 
+  });
+    
+       rest =await myPromise;
+       console.log(rest)
+       return rest;
 }
 
 function validateNumber(phone) {
@@ -395,5 +407,7 @@ function validateTitle(title) {
   return true
 }
 
-
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
 module.exports = router;

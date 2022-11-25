@@ -25,11 +25,14 @@ router.get("/", function(req, res, next) {
     }
   });
 
-  res.render("subscribed", {
+  
+   res.render("subscribed", {
     title: "You are subscribed",
     result 
     
-  });
+   });
+  
+  
  });
 
 module.exports = router;
