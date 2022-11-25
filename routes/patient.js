@@ -301,6 +301,10 @@ function validateSex(sex) {
    
    
   async function emails(email){
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+  {
+    return true
+  }
    
   let myPromise = new Promise(function(resolve, reject) {
     
