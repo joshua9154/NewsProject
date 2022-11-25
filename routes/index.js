@@ -14,16 +14,26 @@ router.get("/", function(req, res, next) {
    res.render("patientPage", { title: "Patient Intake" });
  });
  
+ router.post("/Contact", async function(req, res, next) {
+   
+    res.render("subscribed", {
+    title: "You are subscribed",
+    result 
+    
+  });
+    });
 
  router.post("/Subscribe", async function(req, res, next) {
    const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder, signature } = req.body;
-   var result=0
+   var result= 0
+  
    // 1. Validate the user data
   // 2. Subscribe the user to the mailing list
    // 3. Send a confirmation email
        pool.query("INSERT INTO Patients (title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,signature) VALUES ('"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+ssn+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+insuranceCompany+"','"+plan+"','"+groupNumber+"','"+cardHolder+"','"+signature+"');" ,(err, rows, fiels) => {  
    
     if (!err) {
+      console.log(rows);
       console.log(fiels);
     } else {
        
@@ -31,12 +41,19 @@ router.get("/", function(req, res, next) {
     }
   });
   
-    re= await emails(email)
-    if (re!=[]){
+     /*re= await emails(email)
+     console.log(re)
+    if (re!='[]'){
       result=re;
+      
+    }*/
+     var re='[]'
+    while (re=='[]'){
+        re= await emails(email)
     }
-
- res.render("subscribed", {
+    result=re
+    
+    res.render("subscribed", {
     title: "You are subscribed",
     result 
     
