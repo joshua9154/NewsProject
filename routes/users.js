@@ -3,6 +3,64 @@ const router = express.Router();
 const pool = require("../db/db");
 
 
+
+
+router.get("/", function(req, res, next) {
+   res.render("contactPage", { title: "Express" });
+ });
+
+ router.post("/Subscribe", function(req, res, next) {
+   const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
+   var result=0
+   // 1. Validate the user data
+  // 2. Subscribe the user to the mailing list
+   // 3. Send a confirmation email
+       pool.query("INSERT INTO Contacts (patientId, title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature) VALUES ('"+patientId+"','"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+ssn+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+relationToPatient+"','"+type+"','"+emergencyPriority+"','"+signature+"');" ,(err, rows, fiels) => {  
+    if (!err) {
+      result=1
+      console.log(fiels);
+    } else {
+       result=2
+      console.log(err);
+    }
+  });
+
+  
+   res.render("subscribed", {
+    title: "You are subscribed",
+    result 
+    
+   });
+  
+  
+ });
+
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 router.get("/", (req, res) => {
   res.json("Test");
 });
@@ -178,3 +236,4 @@ router.delete('/contact/:id',(req,res,next)=> {
   });
   
 module.exports = router;
+*/
