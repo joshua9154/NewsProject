@@ -7,8 +7,6 @@ router.get("/", function(req, res, next) {
  });
  
  
- 
- 
  router.post("/Contact", async function(req, res, next) {
     const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
     var result=1
@@ -36,25 +34,6 @@ router.get("/", function(req, res, next) {
         re= await insertPatients(insert)
     }
     result=re
-   
-    /*   pool.query("INSERT INTO Patients (title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,signature) VALUES ('"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+ssn+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+insuranceCompany+"','"+plan+"','"+groupNumber+"','"+cardHolder+"','"+signature+"');" ,(err, rows, fiels) => {  
-   
-    if (!err) {
-      console.log(rows);
-      console.log(fiels);
-    } else {
-       
-      console.log(err);
-    }
-  });
-  
-    
-     var re='[]'
-    while (re=='[]'){
-        re= await emails(email)
-    }
-    result=re
-    */
     res.render("subscribed", {
     title: "You are subscribed",
     result 
@@ -87,6 +66,7 @@ router.get("/", function(req, res, next) {
        console.log(rest)
        return rest;
 }
+
 async function insertPatients(insert){
    
   let myPromise = new Promise(function(resolve, reject) {
@@ -97,14 +77,14 @@ async function insertPatients(insert){
         //result= JSON.stringify(rows)
        //  console.log(result)
          console.log(rows.insertId)
-         resolve(rows.insertId)
+         resolve("Thank You, your Patient ID is "+rows.insertId)
   
          }
     else{
            console.log(rows)
            console.log(fiels)
            console.log(err)
-           resolve(err)
+           resolve("That Email has already been used")
         }
          });
  
@@ -126,7 +106,7 @@ async function insertPatients(insert){
      result= JSON.stringify(rows)
          console.log(result)
          console.log(rows.insertId)
-         resolve(rows.insertId)
+         resolve("Thank You, your Contact ID is "+rows.insertId)
   
          }
     else{
