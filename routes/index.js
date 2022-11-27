@@ -59,7 +59,7 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/Subscribe", async function(req, res, next) {
-   const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder, signature } = req.body;
+   const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms, signature } = req.body;
    var result= 0
    
     request.post(
@@ -82,13 +82,13 @@ router.post("/Subscribe", async function(req, res, next) {
     "plan": plan,
     "groupNumber": groupNumber,
     "cardHolder": cardHolder,
-     "medications": {},
-     "allergies": {},
-     "surgeries": {},
-     "familyHistory": { },
-     "addictions": { },
-     "questionnaire": { },
-    "symptoms": { },
+     "medications": {"Intake":medications},
+     "allergies": {"Intake":allergies},
+     "surgeries": {"Intake":surgeries},
+     "familyHistory": { "Intake":familyHistory},
+     "addictions": { "Intake":addictions},
+     "questionnaire": {"Blood Type":questionnaire },
+    "symptoms": {"Intake":symptoms },
     "signature":signature
     
     }
