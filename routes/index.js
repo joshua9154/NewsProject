@@ -12,10 +12,7 @@ router.get("/", function(req, res, next) {
  router.post("/Contact", async function(req, res, next) {
     const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
     var result=1
-    
-   // var insert = ""+patientId+"','"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+relationToPatient+"','"+type+"','"+emergencyPriority+"','"+signature+""
-    
-    
+     
     request.post(
     'https://dzsqyl-8080.preview.csb.app/contacts',
     { json: { 
@@ -61,37 +58,66 @@ router.get("/", function(req, res, next) {
     }
 );
 });
-  /*  var re='[]'
-    while (re=='[]'){
-        re= await insertContacts(insert)
+
+router.post("/Subscribe", async function(req, res, next) {
+   const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder, signature } = req.body;
+   var result= 0
+   
+    request.post(
+    'https://dzsqyl-8080.preview.csb.app/patient',
+    { json: { 
+     "title": title,
+     "firstName": firstName,
+     "middleInitial": middleInitial,
+     "lastName":lastName,
+     "phone":phone,
+     "email":email,
+    "sex":sex,
+     "ssn":ssn,
+    "dateOfBirth": dob,
+    "street":street,
+    "city":city,
+    "state":state,
+    "zip":zip,
+    "insuranceCompany": insuranceCompany,
+    "plan": plan,
+    "groupNumber": groupNumber,
+    "cardHolder": cardHolder,
+     "medications": {},
+     "allergies": {},
+     "surgeries": {},
+        "familyHistory": { },
+        "addictions": { },
+        "questionnaire": { },
+         "symptoms": {  },
+    "signature":signature
+    
     }
-    result=re
-    */
-  /*  res.render("subscribed", {
-    title: "Contact",
-    result 
+    },
+    async function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+            result="Thank You, your Patient ID is "+body.insertId
+              res.render("subscribed", {
+              title: "Patient",
+              result 
     
-  });*/
-  /*  });
-     router.post("/Contact", async function(req, res, next) {
-    const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
-    var result=1
-    var insert = ""+patientId+"','"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+relationToPatient+"','"+type+"','"+emergencyPriority+"','"+signature+""
-    
-    var re='[]'
-    while (re=='[]'){
-        re= await insertContacts(insert)
-    }
-    result=re
-    
-    res.render("subscribed", {
-    title: "Contact",
-    result 
+               });
+        }
+        else{
+            console.log(body);
+            result= JSON.stringify(body)
+              res.render("subscribed", {
+                 title: "Error",
+                  result 
     
   });
-    });*/
+        }
+    }
+);
+});
 
- router.post("/Subscribe", async function(req, res, next) {
+/* router.post("/Subscribe", async function(req, res, next) {
    const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder, signature } = req.body;
    var result= 0
    var insert = ""+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+ssn+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+insuranceCompany+"','"+plan+"','"+groupNumber+"','"+cardHolder+"','"+signature+""
@@ -107,7 +133,7 @@ router.get("/", function(req, res, next) {
   });
 
  });
- 
+ */
  async function emails(email){
    
   let myPromise = new Promise(function(resolve, reject) {
@@ -132,6 +158,8 @@ router.get("/", function(req, res, next) {
        console.log(rest)
        return rest;
 }
+
+
 
 async function insertPatients(insert){
    
