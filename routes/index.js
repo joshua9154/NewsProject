@@ -1,6 +1,8 @@
  var express = require("express");
  var router = express.Router();
  const pool = require("../db/db");
+ let request = require('request');
+
 
 router.get("/", function(req, res, next) {
    res.render("patientPage", { title: "Patient Intake" });
@@ -8,6 +10,70 @@ router.get("/", function(req, res, next) {
  
  
  router.post("/Contact", async function(req, res, next) {
+    const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
+    var result=1
+    
+   // var insert = ""+patientId+"','"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+relationToPatient+"','"+type+"','"+emergencyPriority+"','"+signature+""
+    
+    
+    request.post(
+    'https://dzsqyl-8080.preview.csb.app/contacts',
+    { json: { 
+      "patientId": patientId ,
+     "title": title,
+     "firstName": firstName,
+     "middleInitial": middleInitial,
+     "lastName":lastName,
+     "phone":phone,
+     "email":email,
+    "sex":sex,
+    "dateOfBirth": dob,
+    "street":street,
+    "city":city,
+    "state":state,
+    "zip":zip,
+    "relationToPatient":relationToPatient,
+    "type":type,
+    "emergencyPriority":emergencyPriority,
+    "signature":signature
+    
+    }
+    },
+    async function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+            result="Thank You, your Contact ID is "+body.insertId
+              res.render("subscribed", {
+             title: "Contact",
+              result 
+    
+               });
+        }
+        else{
+            console.log(body);
+            result= JSON.stringify(body)
+              res.render("subscribed", {
+                 title: "Error",
+                  result 
+    
+  });
+        }
+    }
+);
+});
+  /*  var re='[]'
+    while (re=='[]'){
+        re= await insertContacts(insert)
+    }
+    result=re
+    */
+  /*  res.render("subscribed", {
+    title: "Contact",
+    result 
+    
+  });*/
+  /*  });
+     router.post("/Contact", async function(req, res, next) {
     const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
     var result=1
     var insert = ""+patientId+"','"+title+"','"+firstName+"','"+middleInitial+"','"+lastName+"','"+phone+"','"+email+"','"+sex+"','"+dob+"','"+street+"','"+city+"','"+state+"','"+zip+"','"+relationToPatient+"','"+type+"','"+emergencyPriority+"','"+signature+""
@@ -23,7 +89,7 @@ router.get("/", function(req, res, next) {
     result 
     
   });
-    });
+    });*/
 
  router.post("/Subscribe", async function(req, res, next) {
    const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder, signature } = req.body;
