@@ -313,10 +313,11 @@ function validateSex(sex) {
      if (!err) {
      res= JSON.stringify(rows)
      if  (res[3]==undefined){
+       
          resolve(false)
          }else
          {
-        
+
            resolve(true)
          }
          }
@@ -411,7 +412,4 @@ function validateTitle(title) {
   return true
 }
 
-function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
 module.exports = router;
