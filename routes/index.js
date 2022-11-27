@@ -85,10 +85,10 @@ router.post("/Subscribe", async function(req, res, next) {
      "medications": {},
      "allergies": {},
      "surgeries": {},
-        "familyHistory": { },
-        "addictions": { },
-        "questionnaire": { },
-         "symptoms": {  },
+     "familyHistory": { },
+     "addictions": { },
+     "questionnaire": { },
+    "symptoms": { },
     "signature":signature
     
     }
