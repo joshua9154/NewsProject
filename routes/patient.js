@@ -197,9 +197,9 @@ router.get('/email/:id',(req,res,next)=> {
      if(validateDob(contact.dateOfBirth)){
    return "Please use only valid date of births not "+ contact.dateOfBirth+"."
    }
-    if(validateLetters(contact.relationToPatient)){
-   return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
-   }
+ //   if(validateLetters(contact.relationToPatient)){
+ //  return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
+//   }
     if(validateLetters(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
