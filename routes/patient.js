@@ -1,5 +1,7 @@
 const express = require("express");
 const async = require("hbs/lib/async");
+const { DATETIME2 } = require("mysql/lib/protocol/constants/types");
+//const { DATETIME, DATETIME2 } = require("mysql/lib/protocol/constants/types");
 //const async = require("hbs/lib/async");
 //const { JSON } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
@@ -113,15 +115,20 @@ router.get('/single/:id',(req,res,next)=> {
     
    
        pool.query("select * From Patients Where id ="+patId.id+";",(err, rows, fiels) => {  
+         
+         if (rows<1)    {
+      res.status(404).send('Patient with ID: '+patId.id+ ' not found.')
+       console.log(fiels);
+    }  else if (!err) {
           data=JSON.stringify(rows)
        data= data.replace(/\\/g, '');
        data2 = data.replace(/"{/g, `{`)
        data3 = data2.replace(/}"/g, `}`)
        result= JSON.parse(data3)
         
-    if (!err) {
+    
         res.send(result)
-      console.log(fiels);
+       console.log(fiels);
     } else {
       
       console.log(err);
@@ -235,6 +242,9 @@ function validateDob(dob) {
      if(dob == ""){
      return true
    }
+   // if(!(/^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/.test(dob))){
+   //  return true
+  // }
    return false
 }
 function validateStreet(street) {
@@ -242,6 +252,7 @@ function validateStreet(street) {
      if(street == ""){
      return true
    }
+  
    return false
 }
 function validateCity(city) {

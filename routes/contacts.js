@@ -170,7 +170,7 @@ router.delete('/:id',(req,res,next)=> {
     if(validateLetters(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
-     if(validatePhone(contact.emergencyPriority)){
+     if(validateNumbers(contact.emergencyPriority)){
    return "Please use only use numbers in emergency priority not "+ contact.emergencyPriority+"."
    }
   return  "ok"
@@ -212,6 +212,13 @@ function validateDob(dob) {
      if(dob == ""){
      return true
    }
+   return false
+}
+function validateNumbers(num) {
+    if(!(/^[0-9]+$/.test(num))){
+     return true
+   }
+    
    return false
 }
 function validateStreet(street) {

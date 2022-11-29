@@ -115,4 +115,48 @@ router.post("/Subscribe", async function(req, res, next) {
     }
 );
 });
+
+router.post("/GetPatient", async function(req, res, next) {
+   const { patientId} = req.body;
+   var result= "Patient not found with ID "+patientId
+  // var titles="Error"
+   var contact= ""
+   
+   
+    request.get('https://dzsqyl-8080.preview.csb.app/patient/single/'+patientId+'',
+    async function (error, response, body) {
+        if (!error ) {
+            console.log(body);
+            result= body
+            
+             request.get('https://dzsqyl-8080.preview.csb.app/contacts/patient/'+patientId+'',
+    async function (error, response, body) {
+        if (!error ) {
+            console.log(body);
+            if(body!='[]'){
+            contact= body
+            result =result +contact}
+              res.render("subscribed", {
+              title: "Patient",
+              result 
+    
+               });
+        }
+      
+    }
+);
+            
+            
+        }
+        else{
+           
+              res.render("subscribed", {
+                 title: "Error",
+                  result 
+    
+  });
+        }
+    }
+);
+});
 module.exports = router;
