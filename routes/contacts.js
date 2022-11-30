@@ -3,9 +3,10 @@ const router = express.Router();
 const pool = require("../db/db");
 
 
-router.post("/", (req, res) => {
+router.post("/",async (req, res) => {
    var contact= req.body
-       if (validateContact(contact)=="ok"){
+   result = await validateContact(contact)
+       if (result=="ok"){
     pool.query("INSERT INTO Contacts (patientId,title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature) VALUES ('"+contact.patientId+"','"+contact.title+"','"+contact.firstName+"','"+contact.middleInitial+"','"+contact.lastName+"','"+contact.phone+"','"+contact.email+"','"+contact.sex+"','"+contact.dateOfBirth+"','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.relationToPatient+"','"+contact.type+"','"+contact.emergencyPriority+"','"+contact.signature+"');" ,(err, rows, fiels) => {  
     if (!err) {
       res.json(rows);
@@ -16,14 +17,15 @@ router.post("/", (req, res) => {
     }
   });
     }else{
-         res.status(400).send(validateContact(contact))
+         res.status(400).send(result)
      }
      
 // res.status(201).send("Contact "+contact.firstName+" "+ contact.lastName +" has been added to the contact list for contact "+contact.patientId) 
 });
-router.put("/", (req, res) => {
+router.put("/", async(req, res) => {
     var contact= req.body
-     if (validateContact(contact)=="ok"){
+    result = await validateContact(contact)
+       if (result=="ok"){
    //   pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+contact.email+"','"+contact.firstName+"','"+contact.lastName+"','"+contact.phone+"','"+contact.ssn+"','"+contact.dateOfBirth+"','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.insuranceCompany+"','"+contact.plan+"','"+contact.groupNumber+"','"+contact.medications+"','"+contact.surgeries+"','"+contact.familyHistory+"','"+contact.addictions+"','"+contact.questionnaire+"','"+contact.signature+"','"+contact.middleInitial+"');" ,(err, rows, fiels) => {  
        pool.query("UPDATE Contacts SET patientId ='"+ contact.patientId+"',title='"+contact.title+"',firstName='"+contact.firstName+"',middleInitial='"+contact.middleInitial+"',lastName='"+contact.lastName+"',phone='"+contact.phone+"',email='"+contact.email+"',sex='"+contact.sex+"',dateOfBirth='"+contact.dateOfBirth+"',street='"+contact.street+"',city='"+contact.city+"',state='"+contact.state+"',zip='"+contact.zip+"',relationToPatient='"+contact.relationToPatient+"',type='"+contact.type+"',emergencyPriority='"+contact.emergencyPriority+"',patientId='"+contact.patientId+"',signature='"+contact.signature+"' WHERE contactId = '"+contact.contactId+"';"  ,(err, rows, fiels) => {  
 
@@ -37,7 +39,7 @@ router.put("/", (req, res) => {
   });
    //  res.status(201).send("Patient "+contact.firstName+" "+contact.lastName+" has beed added to the contact list.")
      }else{
-         res.status(400).send(validateContact(contact))
+         res.status(400).send(result)
      }
 });
 
@@ -100,7 +102,7 @@ router.delete('/:id',(req,res,next)=> {
   });
   });
   
-  function validateContact(contact) {
+  async function validateContact(contact) {
   //result="ok"
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
@@ -123,16 +125,17 @@ router.delete('/:id',(req,res,next)=> {
   if(validatePharmacy(contact)){
     return "Please make sure all attributes all filled out for Pharmacy."
   }
-  if(validateId(contact.patientId)){
+      var result= await validateId(contact.patientId); 
+  if(result){
    return "Please use a real patientId not "+ contact.patientId+"."
    }
   if(validateMiddleInitial(contact.middleInitial)){
    return "Please use a single letter for middle initial not "+ contact.middleInitial+"."
    }
-   if(validateLetters(contact.firstName)){
+   if(validateLettersNotNull(contact.firstName)){
    return "Please use only letters in firstName "+ contact.firstName+"."
    }
-   if(validateLetters(contact.lastName)){
+   if(validateLettersNotNull(contact.lastName)){
    return "Please use only letters in lastName "+ contact.lastName+"."
    }
     if(validatePhone(contact.phone)){
@@ -164,42 +167,64 @@ router.delete('/:id',(req,res,next)=> {
    }
    
    
-    if(validateLetters(contact.signature)){
+    if(validateLettersNotNull(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
-     if(validatePhone(contact.emergencyPriority)){
+     if(validateNumbers(contact.emergencyPriority)){
    return "Please use only use numbers in emergency priority not "+ contact.emergencyPriority+"."
    }
   return  "ok"
 }
 
-function validateId(patientId) {
+async function validateId(patientId) {
     if(patientId == ""){
      return true
    }
-   result=false
-  
-   pool.query("select * From Patients Where id ="+patientId+";",(err, rows, fiels) => {  
-      if (rows<1){
-        result=true
-      }
+ 
+  let myPromise = new Promise(function(resolve, reject) {
+    
+    pool.query("select * From Patients Where id ="+patientId+";",(err, rows, fiels) => {  
+    
      if (!err) {
-     
-      console.log(fiels);
-    } else {
-      
-      console.log(err);
-    }
-   
-     });
-   return result
+     res= JSON.stringify(rows)
+     if  (res[3]==undefined){
+           console.log(res[3])
+         resolve(true)
+         }else
+         {
+           resolve(false)
+         }
+         }
+    else{
+          
+        }
+         });
+ 
+  });
+       rest =await myPromise;
+       console.log(rest)
+       return rest;
 }
+  
 
 function validateDob(dob) {
   
      if(dob == ""){
      return true
    }
+    if(dob.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{3})/)){
+     return false
+   }
+    if(dob.match(/(\d{4})-(\d{2})-(\d{2})/)){
+     return false
+   }
+   return true
+}
+function validateNumbers(num) {
+    if(!(/^[0-9]+$/.test(num))){
+     return true
+   }
+    
    return false
 }
 function validateStreet(street) {
@@ -275,22 +300,32 @@ function validateEmail(email) {
 }
 
 function validatePhone(phone) {
-  
-    if(!(/^[0-9]+$/.test(phone))){
+     if(!(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(phone))){
      return true
    }
+   
    return false
 }
 
 
 function validateLetters(word) {
   
-    if(!(/^[a-zA-Z]+$/.test(word))){
+    if(!(/^[a-zA-Z]*$/.test(word))){
      return true
    }
    return false
 }
 
+function validateLettersNotNull(word) {
+  
+    if(!(/^[A-Za-z\s]*$/.test(word))){
+     return true
+   }
+    if(word==""){
+     return true
+   }
+   return false
+}
 function validateMiddleInitial(middleInitial) {
    
     if(middleInitial.length >1){

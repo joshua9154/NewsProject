@@ -1,5 +1,7 @@
 const express = require("express");
 const async = require("hbs/lib/async");
+const { DATETIME2 } = require("mysql/lib/protocol/constants/types");
+//const { DATETIME, DATETIME2 } = require("mysql/lib/protocol/constants/types");
 //const async = require("hbs/lib/async");
 //const { JSON } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
@@ -113,15 +115,20 @@ router.get('/single/:id',(req,res,next)=> {
     
    
        pool.query("select * From Patients Where id ="+patId.id+";",(err, rows, fiels) => {  
+         
+         if (rows<1)    {
+      res.status(404).send('Patient with ID: '+patId.id+ ' not found.')
+       console.log(fiels);
+    }  else if (!err) {
           data=JSON.stringify(rows)
        data= data.replace(/\\/g, '');
        data2 = data.replace(/"{/g, `{`)
        data3 = data2.replace(/}"/g, `}`)
        result= JSON.parse(data3)
         
-    if (!err) {
+    
         res.send(result)
-      console.log(fiels);
+       console.log(fiels);
     } else {
       
       console.log(err);
@@ -197,22 +204,22 @@ router.get('/email/:id',(req,res,next)=> {
      if(validateDob(contact.dateOfBirth)){
    return "Please use only valid date of births not "+ contact.dateOfBirth+"."
    }
-    if(validateLetters(contact.relationToPatient)){
-   return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
-   }
-    if(validateLetters(contact.signature)){
+ //   if(validateLetters(contact.relationToPatient)){
+ //  return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
+//   }
+    if(validateLettersNotNull(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
      if(validateSSN(contact.ssn)){
    return "Please use only use proper ss format not "+ contact.ssn+"."
    }
-   if(validateLettersNotNull(contact.plan)){
+   if(validateLetters(contact.plan)){
    return "Please use only use letters in plan not "+ contact.plan+"."
    }
-   if(validateLettersNotNull(contact.cardHolder)){
+   if(validateLetters(contact.cardHolder)){
    return "Please use only use letters in cardHolder not "+ contact.cardHolder+"."
    }
-    if(validateLettersNotNull(contact.insuranceCompany)){
+    if(validateLetters(contact.insuranceCompany)){
    return "Please use only use letters in insuranceCompany not "+ contact.insuranceCompany+"."
    }
    if(validateNumber(contact.groupNumber)){
@@ -235,13 +242,23 @@ function validateDob(dob) {
      if(dob == ""){
      return true
    }
-   return false
+   if(dob.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{3})/)){
+     return false
+   }
+    if(dob.match(/(\d{4})-(\d{2})-(\d{2})/)){
+     return false
+   }
+   // if(!(/^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/.test(dob))){
+   //  return true
+  // }
+   return true
 }
 function validateStreet(street) {
   
      if(street == ""){
      return true
    }
+  
    return false
 }
 function validateCity(city) {
@@ -313,10 +330,11 @@ function validateSex(sex) {
      if (!err) {
      res= JSON.stringify(rows)
      if  (res[3]==undefined){
+       
          resolve(false)
          }else
          {
-        
+
            resolve(true)
          }
          }
@@ -411,7 +429,4 @@ function validateTitle(title) {
   return true
 }
 
-function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
 module.exports = router;
