@@ -207,19 +207,19 @@ router.get('/email/:id',(req,res,next)=> {
  //   if(validateLetters(contact.relationToPatient)){
  //  return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
 //   }
-    if(validateLetters(contact.signature)){
+    if(validateLettersNotNull(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
      if(validateSSN(contact.ssn)){
    return "Please use only use proper ss format not "+ contact.ssn+"."
    }
-   if(validateLettersNotNull(contact.plan)){
+   if(validateLetters(contact.plan)){
    return "Please use only use letters in plan not "+ contact.plan+"."
    }
-   if(validateLettersNotNull(contact.cardHolder)){
+   if(validateLetters(contact.cardHolder)){
    return "Please use only use letters in cardHolder not "+ contact.cardHolder+"."
    }
-    if(validateLettersNotNull(contact.insuranceCompany)){
+    if(validateLetters(contact.insuranceCompany)){
    return "Please use only use letters in insuranceCompany not "+ contact.insuranceCompany+"."
    }
    if(validateNumber(contact.groupNumber)){
@@ -242,10 +242,16 @@ function validateDob(dob) {
      if(dob == ""){
      return true
    }
+   if(dob.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{3})/)){
+     return false
+   }
+    if(dob.match(/(\d{4})-(\d{2})-(\d{2})/)){
+     return false
+   }
    // if(!(/^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/.test(dob))){
    //  return true
   // }
-   return false
+   return true
 }
 function validateStreet(street) {
   

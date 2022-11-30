@@ -132,10 +132,10 @@ router.delete('/:id',(req,res,next)=> {
   if(validateMiddleInitial(contact.middleInitial)){
    return "Please use a single letter for middle initial not "+ contact.middleInitial+"."
    }
-   if(validateLetters(contact.firstName)){
+   if(validateLettersNotNull(contact.firstName)){
    return "Please use only letters in firstName "+ contact.firstName+"."
    }
-   if(validateLetters(contact.lastName)){
+   if(validateLettersNotNull(contact.lastName)){
    return "Please use only letters in lastName "+ contact.lastName+"."
    }
     if(validatePhone(contact.phone)){
@@ -167,7 +167,7 @@ router.delete('/:id',(req,res,next)=> {
    }
    
    
-    if(validateLetters(contact.signature)){
+    if(validateLettersNotNull(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
      if(validateNumbers(contact.emergencyPriority)){
@@ -212,7 +212,13 @@ function validateDob(dob) {
      if(dob == ""){
      return true
    }
-   return false
+    if(dob.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2}).(\d{3})/)){
+     return false
+   }
+    if(dob.match(/(\d{4})-(\d{2})-(\d{2})/)){
+     return false
+   }
+   return true
 }
 function validateNumbers(num) {
     if(!(/^[0-9]+$/.test(num))){
@@ -304,12 +310,22 @@ function validatePhone(phone) {
 
 function validateLetters(word) {
   
-    if(!(/^[a-zA-Z]+$/.test(word))){
+    if(!(/^[a-zA-Z]*$/.test(word))){
      return true
    }
    return false
 }
 
+function validateLettersNotNull(word) {
+  
+    if(!(/^[A-Za-z\s]*$/.test(word))){
+     return true
+   }
+    if(word==""){
+     return true
+   }
+   return false
+}
 function validateMiddleInitial(middleInitial) {
    
     if(middleInitial.length >1){

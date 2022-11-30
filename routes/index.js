@@ -135,8 +135,8 @@ router.post("/GetPatient", async function(req, res, next) {
             console.log(body);
             if(body!='[]'){
             contact= body
-            result =result +contact}
-              res.render("subscribed", {
+            result =result +"-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"+contact}
+              res.render("get", {
               title: "Patient",
               result 
     
@@ -150,7 +150,7 @@ router.post("/GetPatient", async function(req, res, next) {
         }
         else{
            
-              res.render("subscribed", {
+              res.render("get", {
                  title: "Error",
                   result 
     
