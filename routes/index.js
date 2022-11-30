@@ -59,7 +59,7 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/Subscribe", async function(req, res, next) {
-   const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms, signature } = req.body;
+   const { title, firstName, middleInitial, lastName, phone, email, sex, ssn, dob, street, city, state, zip, insuranceCompany, plan, groupNumber, cardHolder,medications,allergies,surgeries,familyHistory,addictions,questionnaire1,questionnaire2,symptoms, signature } = req.body;
    var result= 0
    
     request.post(
@@ -87,7 +87,7 @@ router.post("/Subscribe", async function(req, res, next) {
      "surgeries": {"Intake":surgeries},
      "familyHistory": { "Intake":familyHistory},
      "addictions": { "Intake":addictions},
-     "questionnaire": {"Blood Type":questionnaire },
+     "questionnaire": {"Blood Type":questionnaire1,"Race":questionnaire2 },
     "symptoms": {"Intake":symptoms },
     "signature":signature
     
@@ -134,11 +134,11 @@ router.post("/GetPatient", async function(req, res, next) {
         if (!error ) {
             console.log(body);
             if(body!='[]'){
-            contact= body
-            result =result +"-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"+contact}
-              res.render("get", {
+            contact= body}
+             res.render("get", {
               title: "Patient",
-              result 
+              result ,
+              contact
     
                });
         }
