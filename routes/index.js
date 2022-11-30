@@ -118,9 +118,10 @@ router.post("/Subscribe", async function(req, res, next) {
 
 router.post("/GetPatient", async function(req, res, next) {
    const { patientId} = req.body;
+
    var result= "Patient not found with ID "+patientId
   // var titles="Error"
-   var contact= ""
+   var contact= "No Contacts found for Patient with ID "+patientId
    
    
     request.get('https://dzsqyl-8080.preview.csb.app/patient/single/'+patientId+'',
