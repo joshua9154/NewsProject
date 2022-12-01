@@ -25,7 +25,9 @@ router.post("/",async (req, res) => {
 router.put("/", async(req, res) => {
     var contact= req.body
     result = await validateContact(contact)
-       if (result=="ok"){
+    con= await validateContactId(contact.contactId)
+    console.log(con)
+       if (result=="ok"&con==false){
    //   pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+contact.email+"','"+contact.firstName+"','"+contact.lastName+"','"+contact.phone+"','"+contact.ssn+"','"+contact.dateOfBirth+"','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.insuranceCompany+"','"+contact.plan+"','"+contact.groupNumber+"','"+contact.medications+"','"+contact.surgeries+"','"+contact.familyHistory+"','"+contact.addictions+"','"+contact.questionnaire+"','"+contact.signature+"','"+contact.middleInitial+"');" ,(err, rows, fiels) => {  
        pool.query("UPDATE Contacts SET patientId ='"+ contact.patientId+"',title='"+contact.title+"',firstName='"+contact.firstName+"',middleInitial='"+contact.middleInitial+"',lastName='"+contact.lastName+"',phone='"+contact.phone+"',email='"+contact.email+"',sex='"+contact.sex+"',dateOfBirth='"+contact.dateOfBirth+"',street='"+contact.street+"',city='"+contact.city+"',state='"+contact.state+"',zip='"+contact.zip+"',relationToPatient='"+contact.relationToPatient+"',type='"+contact.type+"',emergencyPriority='"+contact.emergencyPriority+"',patientId='"+contact.patientId+"',signature='"+contact.signature+"' WHERE contactId = '"+contact.contactId+"';"  ,(err, rows, fiels) => {  
 
@@ -39,7 +41,10 @@ router.put("/", async(req, res) => {
   });
    //  res.status(201).send("Patient "+contact.firstName+" "+contact.lastName+" has beed added to the contact list.")
      }else{
-         res.status(400).send(result)
+        if(con!=false){
+           res.status(400).send("Contact not found with Contact ID "+contact.contactId)
+        }else{
+         res.status(400).send(result)}
      }
 });
 
@@ -206,6 +211,35 @@ async function validateId(patientId) {
        return rest;
 }
   
+  async function validateContactId(contactId) {
+    if(contactId == ""){
+     return true
+   }
+ 
+  let myPromise = new Promise(function(resolve, reject) {
+    
+    pool.query("select * From Contacts Where contactId ="+contactId+";",(err, rows, fiels) => {  
+    
+     if (!err) {
+     res= JSON.stringify(rows)
+     if  (res[3]==undefined){
+           console.log(res[3])
+         resolve(true)
+         }else
+         {
+           resolve(false)
+         }
+         }
+    else{
+          
+        }
+         });
+ 
+  });
+       rest =await myPromise;
+       console.log(rest)
+       return rest;
+}
 
 function validateDob(dob) {
   
@@ -426,6 +460,9 @@ function validateGuardian(contact) {
 
 
 function validateType(type) {
+   if(type==""){
+     return true
+   }
    input= type.toLowerCase();
     if(input==""){
      return true
