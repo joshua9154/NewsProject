@@ -48,3 +48,9 @@ body {
   border-bottom-right-radius: 0.25rem;
   margin-bottom: 10px;
 }
+.footer{ 
+       position: fixed;     
+       text-align: center;    
+       bottom: 0px; 
+       width: 100%;
+   }  
