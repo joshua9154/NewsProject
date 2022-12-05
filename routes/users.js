@@ -192,7 +192,7 @@ router.post("/GetAllPatient", async function(req, res, next) {
             console.log(body);
             result= body
           
-             res.render("modResponse", {
+             res.render("allResponse", {
               title: "Patient",
               result 
              
@@ -201,7 +201,7 @@ router.post("/GetAllPatient", async function(req, res, next) {
         }
         else{
            
-              res.render("modResponse", {
+              res.render("allResponse", {
                  title: "Error",
                   result 
     
