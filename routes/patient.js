@@ -100,8 +100,14 @@ router.delete('/:id',(req,res,next)=> {
    
        pool.query("Delete From Patients Where id ="+thisId.id+";",(err, rows, fiels) => {  
     if (!err) {
-      res.json(rows);
-      console.log(fiels);
+      if(rows.affectedRows==0){
+        res.status(400).send('Patient with ID: '+thisId.id+ ' not found.')
+      }
+      else{
+     // res.json(rows);}
+        res.status(200).send('Patient with ID: '+thisId.id+ ' has been deleted.')
+     }
+      console.log(rows.affectedRows);
     } else {
       
       console.log(err);
@@ -144,7 +150,7 @@ router.get('/email/:id',(req,res,next)=> {
     var emailId = req.params;
    
        pool.query("select * From Patients Where email ='"+emailId.id+"';",(err, rows, fiels) => {  
-         
+         console.log(rows)
     if (rows<1)    {
       res.status(404).send('Patient with email: '+emailId.id+ ' not found.')
        console.log(fiels);

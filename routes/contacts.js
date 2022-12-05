@@ -53,7 +53,10 @@ router.put("/", async(req, res) => {
 router.get('/patient/:id',(req,res,next)=> {
     var contactId = req.params;
        pool.query("select * From Contacts Where patientId ="+contactId.id+";",(err, rows, fiels) => {  
-    if (!err) {
+           if (rows<1)    {
+      res.status(404).send('Contact with ID: '+contatId.id+ ' not found.')
+       console.log(fiels);
+    }  else if  (!err) {
       res.json(rows);
       console.log(fiels);
     } else {
@@ -67,7 +70,10 @@ router.get('/patient/:id',(req,res,next)=> {
 router.get('/single/:id',(req,res,next)=> {
     var contatId = req.params;
        pool.query("select * From Contacts Where contactId ="+contatId.id+";",(err, rows, fiels) => {  
-    if (!err) {
+     if (rows<1)    {
+      res.status(404).send('Contact with ID: '+contatId.id+ ' not found.')
+       console.log(fiels);
+    }  else if  (!err) {
       res.json(rows);
       console.log(fiels);
     } else {
@@ -98,7 +104,13 @@ router.delete('/:id',(req,res,next)=> {
    
        pool.query("Delete From Contacts Where contactId ="+conId.id+";",(err, rows, fiels) => {  
     if (!err) {
-      res.json(rows);
+       if(rows.affectedRows==0){
+        res.status(400).send('Contact with ID: '+conId.id+ ' not found.')
+      }
+      else{
+    //  res.json(rows);
+       res.status(200).send('Contact with ID: '+conId.id+ ' has been deleted.')
+      }
       console.log(fiels);
     } else {
       
