@@ -128,16 +128,16 @@ router.delete('/:id',(req,res,next)=> {
     return "Please use types Guardian, Family, Freind, Family, Doctor, or Pharmacy not "+ contact.type+"."
   }
    if(validateGuardian(contact)){
-    return "Please make sure all attributes all filled out for Guardian."
+    return "Please make sure all attributes all filled out for Guardian (first name,last name, phone, email, date of birth, street, city, zip, relation to patient, emergency priority, signature)."
   }
    if(validateFamily(contact)){
-    return "Please make sure all attributes all filled out for Family."
+    return "Please make sure all attributes all filled out for Family (first name,last name, phone, email, date of birth, street, city, zip, relation to patient)."
   }
   if(validateFreind(contact)){
-    return "Please make sure all attributes all filled out for Freind."
+    return "Please make sure all attributes all filled out for Freind (first name,last name)."
   }
   if(validateDoctor(contact)){
-    return "Please make sure all attributes all filled out for Doctor."
+    return "Please make sure all attributes all filled out for Doctor (first name,last name)."
   }
   if(validatePharmacy(contact)){
     return "Please make sure all attributes all filled out for Pharmacy."
@@ -184,7 +184,7 @@ router.delete('/:id',(req,res,next)=> {
    }
    
    
-    if(validateLettersNotNull(contact.signature)){
+    if(validateLetters(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
      if(validateNumbers(contact.emergencyPriority)){
@@ -373,6 +373,10 @@ function validateLettersNotNull(word) {
    return false
 }
 function validateMiddleInitial(middleInitial) {
+  
+    if(middleInitial==""){
+     return false
+    }
    
     if(middleInitial.length >1){
      return true
@@ -410,6 +414,10 @@ function validateFreind(contact) {
     if(contact.type.toLowerCase()!= "freind"){
      return false
    }
+    if(contact.firstName==""){
+     return true
+   }
+   
    if(contact.lastName==""){
      return true
    }
@@ -421,9 +429,10 @@ function validateFamily(contact) {
     if(contact.type.toLowerCase()!= "family"){
      return false
    }
-    if(contact.title== ""){
+     if(contact.firstName==""){
      return true
    }
+  
    if(contact.lastName==""){
      return true
    }
@@ -446,9 +455,10 @@ function validateGuardian(contact) {
     if(contact.type.toLowerCase()!= "guardian"){
      return false
    }
-    if(contact.title== ""){
+     if(contact.firstName==""){
      return true
    }
+    
    if(contact.lastName==""){
      return true
    }
