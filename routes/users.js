@@ -180,5 +180,36 @@ router.post("/DeleteContact", async function(req, res, next) {
     }
 );
 });
+
+
+
+
+router.post("/GetAllPatient", async function(req, res, next) {
+  
+    request.get('https://dzsqyl-8080.preview.csb.app/patient',
+    async function (error, response, body) {
+        if (!error ) {
+            console.log(body);
+            result= body
+          
+             res.render("modResponse", {
+              title: "Patient",
+              result 
+             
+    
+               });
+        }
+        else{
+           
+              res.render("modResponse", {
+                 title: "Error",
+                  result 
+    
+  });
+        }
+    }
+);
+            
+});
 module.exports = router;
 
