@@ -230,7 +230,7 @@ router.post("/GetRecord", async function(req, res, next) {
             console.log(body);
            // result="Thank You, your Patient ID is "+body.insertId
                 result= JSON.stringify(body)
-              res.render("modResponse", {
+              res.render("allResponse", {
               title: "Patient",
               result 
     
@@ -239,7 +239,7 @@ router.post("/GetRecord", async function(req, res, next) {
         else{
             console.log(body);
             result= JSON.stringify(body)
-              res.render("modResponse", {
+              res.render("allResponse", {
                  title: "Error",
                   result 
     

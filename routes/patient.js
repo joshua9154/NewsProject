@@ -126,13 +126,13 @@ router.get('/record',async(req,res,next)=> {
       test = await validateConId(contact.id)
       val= await validateVal(contact.value)
       if(val=="err"){
-         res.status(404).send('Please only use paramters title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature. not '+contact.value)
+         res.status(404).send('Please only use paramters title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms,signature title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature. not '+contact.value)
       }
       else if(test=="err"){
         res.status(404).send('Patient with ID: '+contact.id+ ' cannot be retrived.')
       }
       else{
-       pool.query("select "+contact.value+" From Patients Where id "+test+";",(err, rows, fiels) => {  
+       pool.query("select "+val+" From Patients Where id "+test+";",(err, rows, fiels) => {  
            if (rows<1)    {
       res.status(404).send('Patient with ID: '+contact.id+ ' not found.')
        console.log(fiels);
@@ -510,8 +510,8 @@ function validateVal(val) {
    if(val==""){
      return "err"
    }
-   inp= val.toLowerCase();
-   input = inp.replaceAll(' ', '');
+   inp= val.replace(/\s/g, "");
+   input= inp.toLowerCase();
     if(input=="title"){
      return input
    }

@@ -64,7 +64,7 @@ router.get('/record',async(req,res,next)=> {
         res.status(404).send('Contact with ID: '+contact.id+ ' cannot be retrived.')
       }
       else{
-       pool.query("select "+contact.value+" From Contacts Where contactId "+test+";",(err, rows, fiels) => {  
+       pool.query("select "+val+" From Contacts Where contactId "+test+";",(err, rows, fiels) => {  
            if (rows<1)    {
       res.status(404).send('Contact with ID: '+contact.id+ ' not found.')
        console.log(fiels);
@@ -581,8 +581,8 @@ function validateVal(val) {
    if(val==""){
      return "err"
    }
-   inp= val.toLowerCase();
-   input = inp.replaceAll(' ', '');
+    inp= val.replace(/\s/g, "");
+   input= inp.toLowerCase();
     if(input=="title"){
      return input
    }
