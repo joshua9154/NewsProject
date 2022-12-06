@@ -510,7 +510,8 @@ function validateVal(val) {
    if(val==""){
      return "err"
    }
-   input= val.toLowerCase();
+   inp= val.toLowerCase();
+   input = inp.replaceAll(' ', '');
     if(input=="title"){
      return input
    }
