@@ -5,6 +5,8 @@ const pool = require("../db/db");
 
 router.post("/",async (req, res) => {
    var contact= req.body
+   
+    
    result = await validateContact(contact)
        if (result=="ok"){
     pool.query("INSERT INTO Contacts (patientId,title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature) VALUES ('"+contact.patientId+"','"+contact.title+"','"+contact.firstName+"','"+contact.middleInitial+"','"+contact.lastName+"','"+contact.phone+"','"+contact.email+"','"+contact.sex+"','"+contact.dateOfBirth+"','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.relationToPatient+"','"+contact.type+"','"+contact.emergencyPriority+"','"+contact.signature+"');" ,(err, rows, fiels) => {  
@@ -19,17 +21,15 @@ router.post("/",async (req, res) => {
     }else{
          res.status(400).send(result)
      }
-     
-// res.status(201).send("Contact "+contact.firstName+" "+ contact.lastName +" has been added to the contact list for contact "+contact.patientId) 
-});
+     });
 router.put("/", async(req, res) => {
     var contact= req.body
+    
     result = await validateContact(contact)
     con= await validateContactId(contact.contactId)
     console.log(con)
        if (result=="ok"&con==false){
-   //   pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+contact.email+"','"+contact.firstName+"','"+contact.lastName+"','"+contact.phone+"','"+contact.ssn+"','"+contact.dateOfBirth+"','"+contact.street+"','"+contact.city+"','"+contact.state+"','"+contact.zip+"','"+contact.insuranceCompany+"','"+contact.plan+"','"+contact.groupNumber+"','"+contact.medications+"','"+contact.surgeries+"','"+contact.familyHistory+"','"+contact.addictions+"','"+contact.questionnaire+"','"+contact.signature+"','"+contact.middleInitial+"');" ,(err, rows, fiels) => {  
-       pool.query("UPDATE Contacts SET patientId ='"+ contact.patientId+"',title='"+contact.title+"',firstName='"+contact.firstName+"',middleInitial='"+contact.middleInitial+"',lastName='"+contact.lastName+"',phone='"+contact.phone+"',email='"+contact.email+"',sex='"+contact.sex+"',dateOfBirth='"+contact.dateOfBirth+"',street='"+contact.street+"',city='"+contact.city+"',state='"+contact.state+"',zip='"+contact.zip+"',relationToPatient='"+contact.relationToPatient+"',type='"+contact.type+"',emergencyPriority='"+contact.emergencyPriority+"',patientId='"+contact.patientId+"',signature='"+contact.signature+"' WHERE contactId = '"+contact.contactId+"';"  ,(err, rows, fiels) => {  
+        pool.query("UPDATE Contacts SET patientId ='"+ contact.patientId+"',title='"+contact.title+"',firstName='"+contact.firstName+"',middleInitial='"+contact.middleInitial+"',lastName='"+contact.lastName+"',phone='"+contact.phone+"',email='"+contact.email+"',sex='"+contact.sex+"',dateOfBirth='"+contact.dateOfBirth+"',street='"+contact.street+"',city='"+contact.city+"',state='"+contact.state+"',zip='"+contact.zip+"',relationToPatient='"+contact.relationToPatient+"',type='"+contact.type+"',emergencyPriority='"+contact.emergencyPriority+"',patientId='"+contact.patientId+"',signature='"+contact.signature+"' WHERE contactId = '"+contact.contactId+"';"  ,(err, rows, fiels) => {  
 
     if (!err) {
       res.json(rows);
@@ -39,7 +39,6 @@ router.put("/", async(req, res) => {
       console.log(err);
     }
   });
-   //  res.status(201).send("Patient "+contact.firstName+" "+contact.lastName+" has beed added to the contact list.")
      }else{
         if(con!=false){
            res.status(400).send("Contact not found with Contact ID "+contact.contactId)
@@ -50,8 +49,12 @@ router.put("/", async(req, res) => {
 
 
 router.get('/record',async(req,res,next)=> {
-   // var contactId = req.params;
+  
      var contact= req.body
+       if (typeof(contact.id) == "undefined"){
+        res.status(404).send('No body in request.')
+     }
+     else {
      console.log(contact)
     
      
@@ -76,17 +79,17 @@ router.get('/record',async(req,res,next)=> {
       console.log(err);
     }
   });}
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
-  
+     }
 });
 
 
 
 router.get('/patient/:id',(req,res,next)=> {
     var contactId = req.params;
+    
        pool.query("select * From Contacts Where patientId ="+contactId.id+";",(err, rows, fiels) => {  
            if (rows<1)    {
-      res.status(404).send('Contact with ID: '+contatId.id+ ' not found.')
+      res.status(404).send('Contact with ID: '+contactId.id+ ' not found.')
        console.log(fiels);
     }  else if  (!err) {
       res.json(rows);
@@ -96,11 +99,11 @@ router.get('/patient/:id',(req,res,next)=> {
       console.log(err);
     }
   });
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
-  
+     
 });
 router.get('/single/:id',(req,res,next)=> {
     var contatId = req.params;
+    
        pool.query("select * From Contacts Where contactId ="+contatId.id+";",(err, rows, fiels) => {  
      if (rows<1)    {
       res.status(404).send('Contact with ID: '+contatId.id+ ' not found.')
@@ -113,8 +116,7 @@ router.get('/single/:id',(req,res,next)=> {
       console.log(err);
     }
   });
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
-  
+     
 });
 
 router.get('/all/',(req,res,next)=> {
@@ -127,20 +129,18 @@ router.get('/all/',(req,res,next)=> {
       console.log(err);
     }
   });
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
-  
+ 
 });
 
 router.delete('/:id',(req,res,next)=> {
     var conId = req.params;
-   
+    
        pool.query("Delete From Contacts Where contactId ="+conId.id+";",(err, rows, fiels) => {  
     if (!err) {
        if(rows.affectedRows==0){
         res.status(400).send('Contact with ID: '+conId.id+ ' not found.')
       }
       else{
-    //  res.json(rows);
        res.status(200).send('Contact with ID: '+conId.id+ ' has been deleted.')
       }
       console.log(fiels);
@@ -152,7 +152,7 @@ router.delete('/:id',(req,res,next)=> {
   });
   
   async function validateContact(contact) {
-  //result="ok"
+ 
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
   }
