@@ -117,6 +117,36 @@ router.delete('/:id',(req,res,next)=> {
   
 });
 
+router.get('/record',async(req,res,next)=> {
+   // var contactId = req.params;
+     var contact= req.body
+     console.log(contact)
+    
+     
+      test = await validateConId(contact.id)
+      val= await validateVal(contact.value)
+      if(val=="err"){
+         res.status(404).send('Please only use paramters title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature. not '+contact.value)
+      }
+      else if(test=="err"){
+        res.status(404).send('Patient with ID: '+contact.id+ ' cannot be retrived.')
+      }
+      else{
+       pool.query("select "+contact.value+" From Patients Where id "+test+";",(err, rows, fiels) => {  
+           if (rows<1)    {
+      res.status(404).send('Patient with ID: '+contact.id+ ' not found.')
+       console.log(fiels);
+    }  else if  (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });}
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
+  
+});
 
 router.get('/single/:id',(req,res,next)=> {
     var patId = req.params;
@@ -442,4 +472,117 @@ function validateTitle(title) {
   return true
 }
 
+async function validateConId(contactId) {
+    if(contactId == ""){
+     return "is not null"
+   }
+    if(!(/^[0-9]+$/.test(contactId))){
+     return "err"
+   }
+ 
+  let myPromise = new Promise(function(resolve, reject) {
+    
+    pool.query("select * From Patients Where id ="+contactId+";",(err, rows, fiels) => {  
+    
+     if (!err) {
+     res= JSON.stringify(rows)
+     if  (res[3]==undefined){
+           console.log(res[3])
+         resolve("err")
+         }else
+         {
+           resolve("="+contactId)
+         }
+         }
+    else{
+          
+        }
+         });
+ 
+  });
+       rest =await myPromise;
+       console.log(rest)
+       return rest;
+}
+
+
+function validateVal(val) {
+   if(val==""){
+     return "err"
+   }
+   input= val.toLowerCase();
+    if(input=="title"){
+     return input
+   }
+    if(input=="firstname"){
+     return input
+   }
+   if(input=="middleinitial"){
+     return input
+   }
+   if(input=="lastname"){
+     return input
+   }
+   if(input=="phone"){
+     return input
+   }
+   if(input=="email"){
+     return input
+   }
+    if(input=="sex"){
+     return input
+   }
+   if(input=="dateofbirth"){
+     return input
+   }
+   if(input=="street"){
+     return input
+   }
+   if(input=="city"){
+     return input
+   }
+   if(input=="state"){
+     return input
+   }
+    if(input=="zip"){
+     return input
+   }
+    if(input=="insurancecompany"){
+     return input
+   }
+   if(input=="plan"){
+     return input
+   }
+   if(input=="groupnumber"){
+     return input
+   }
+    if(input=="cardholder"){
+     return input
+   }
+   if(input=="questionnaire"){
+     return input
+   }
+    if(input=="symptoms"){
+     return input
+   }
+    if(input=="medications"){
+     return input
+   }
+   if(input=="allergies"){
+     return input
+   }
+   if(input=="surgeries"){
+     return input
+   }
+    if(input=="familyhistory"){
+     return input
+   }
+   if(input=="addictions"){
+     return input
+   }
+   if(input=="signature"){
+     return input
+   }
+  return "err"
+}
 module.exports = router;

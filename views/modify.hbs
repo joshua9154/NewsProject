@@ -182,6 +182,21 @@
  
 </form>
 
+<form action="/users/GetRecord" method="POST" class="form-signin full-width text-center">
+  <h1 class="h3 mb-3 font-weight-normal">Get Specific Field Form </h1>
+  
+   <label for="Id" class="sr-only">Id</label>
+   <input type="number" name="Id" class="form-control" placeholder="Patient ID (leave blank for all)" >
+   
+    <label for="val" class="sr-only">val</label>
+   <input type="text" name="val" class="form-control" placeholder="Search Field" required>
+  
+   
+     
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
+ 
+</form>
+
  <div class="footer">
 <p class="lead">
     <a class="btn btn-primary btn-sm" href="/" role="button">Continue to Patient Page</a>

@@ -49,6 +49,38 @@ router.put("/", async(req, res) => {
 });
 
 
+router.get('/record',async(req,res,next)=> {
+   // var contactId = req.params;
+     var contact= req.body
+     console.log(contact)
+    
+     
+      test = await validateConId(contact.id)
+      val= await validateVal(contact.value)
+      if(val=="err"){
+         res.status(404).send('Please only use paramters title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature. not '+contact.value)
+      }
+      else if(test=="err"){
+        res.status(404).send('Contact with ID: '+contact.id+ ' cannot be retrived.')
+      }
+      else{
+       pool.query("select "+contact.value+" From Contacts Where contactId "+test+";",(err, rows, fiels) => {  
+           if (rows<1)    {
+      res.status(404).send('Contact with ID: '+contact.id+ ' not found.')
+       console.log(fiels);
+    }  else if  (!err) {
+      res.json(rows);
+      console.log(fiels);
+    } else {
+      
+      console.log(err);
+    }
+  });}
+  //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
+  
+});
+
+
 
 router.get('/patient/:id',(req,res,next)=> {
     var contactId = req.params;
@@ -183,7 +215,6 @@ router.delete('/:id',(req,res,next)=> {
    return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
    }
    
-   
     if(validateLetters(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
@@ -195,6 +226,9 @@ router.delete('/:id',(req,res,next)=> {
 
 async function validateId(patientId) {
     if(patientId == ""){
+     return true
+   }
+    if(!(/^[0-9]+$/.test(patientId))){
      return true
    }
  
@@ -227,6 +261,9 @@ async function validateId(patientId) {
     if(contactId == ""){
      return true
    }
+    if(!(/^[0-9]+$/.test(contactId))){
+     return true
+   }
  
   let myPromise = new Promise(function(resolve, reject) {
     
@@ -240,6 +277,39 @@ async function validateId(patientId) {
          }else
          {
            resolve(false)
+         }
+         }
+    else{
+          
+        }
+         });
+ 
+  });
+       rest =await myPromise;
+       console.log(rest)
+       return rest;
+}
+
+async function validateConId(contactId) {
+    if(contactId == ""){
+     return "is not null"
+   }
+    if(!(/^[0-9]+$/.test(contactId))){
+     return "err"
+   }
+ 
+  let myPromise = new Promise(function(resolve, reject) {
+    
+    pool.query("select * From Contacts Where contactId ="+contactId+";",(err, rows, fiels) => {  
+    
+     if (!err) {
+     res= JSON.stringify(rows)
+     if  (res[3]==undefined){
+           console.log(res[3])
+         resolve("err")
+         }else
+         {
+           resolve("="+contactId)
          }
          }
     else{
@@ -505,6 +575,62 @@ function validateType(type) {
      return false
    }
   return true
+}
+
+function validateVal(val) {
+   if(val==""){
+     return "err"
+   }
+   input= val.toLowerCase();
+    if(input=="title"){
+     return input
+   }
+    if(input=="firstname"){
+     return input
+   }
+   if(input=="middleinitial"){
+     return input
+   }
+   if(input=="lastname"){
+     return input
+   }
+   if(input=="phone"){
+     return input
+   }
+   if(input=="email"){
+     return input
+   }
+    if(input=="sex"){
+     return input
+   }
+   if(input=="dateofbirth"){
+     return input
+   }
+   if(input=="street"){
+     return input
+   }
+   if(input=="city"){
+     return input
+   }
+   if(input=="state"){
+     return input
+   }
+    if(input=="zip"){
+     return input
+   }
+   if(input=="relationtopatient"){
+     return input
+   }
+   if(input=="type"){
+     return input
+   }
+   if(input=="emergencypriority"){
+     return input
+   }
+   if(input=="signature"){
+     return input
+   }
+  return "err"
 }
 
 function validateTitle(title) {

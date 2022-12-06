@@ -211,5 +211,42 @@ router.post("/GetAllPatient", async function(req, res, next) {
 );
             
 });
+
+
+
+router.post("/GetRecord", async function(req, res, next) {
+   const { Id,val } = req.body;
+   var result= 0
+   
+    request.get(
+    'https://dzsqyl-8080.preview.csb.app/patient/record/',
+    { json: { 
+      "id":Id,  
+     "value": val
+    }
+    },
+    async function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+           // result="Thank You, your Patient ID is "+body.insertId
+                result= JSON.stringify(body)
+              res.render("modResponse", {
+              title: "Patient",
+              result 
+    
+               });
+        }
+        else{
+            console.log(body);
+            result= JSON.stringify(body)
+              res.render("modResponse", {
+                 title: "Error",
+                  result 
+    
+  });
+        }
+    }
+);
+});
 module.exports = router;
 
