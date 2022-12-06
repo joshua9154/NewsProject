@@ -121,6 +121,11 @@ router.get('/record',async(req,res,next)=> {
    // var contactId = req.params;
      var contact= req.body
      console.log(contact)
+      console.log(typeof(req.body))
+     if (typeof(contact.id) == "undefined"){
+        res.status(404).send('No body in request.')
+     }
+     else {
     
      
       test = await validateConId(contact.id)
@@ -143,7 +148,7 @@ router.get('/record',async(req,res,next)=> {
       
       console.log(err);
     }
-  });}
+  });}}
   //   res.status(201).send("Patient "+thisId.id+" has been deleted from contact list.")
   
 });
