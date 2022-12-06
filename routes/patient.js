@@ -1,9 +1,6 @@
 const express = require("express");
 const async = require("hbs/lib/async");
 const { DATETIME2 } = require("mysql/lib/protocol/constants/types");
-//const { DATETIME, DATETIME2 } = require("mysql/lib/protocol/constants/types");
-//const async = require("hbs/lib/async");
-//const { JSON } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
 
@@ -18,8 +15,7 @@ router.get("/", (req, res) => {
     
     if (!err) {
         res.send(result)
-     // res.json(rows);
-      console.log(fiels);
+        console.log(fiels);
     } else {
       console.log(err);
     }
@@ -27,15 +23,9 @@ router.get("/", (req, res) => {
 });
 router.post("/", async (req, res) => {
      var patient= req.body
-    // console.log(patient)
-   //  med=JSON.stringify(patient.medications)
-    // all=JSON.stringify(patient.allergies)
-   //  sur=JSON.stringify(patient.surgeries)
-   //  que=JSON.stringify(patient.questionnaire)
-   //  sym=JSON.stringify(patient.symptoms)
-   //  fam=JSON.stringify(patient.familyHistory)
-   //  add=JSON.stringify(patient.addictions)
-    result = await validatePatient(patient)
+      console.log(patient.length)
+    
+      result = await validatePatient(patient)
     if ( result=="ok"){
      med=JSON.stringify(patient.medications)
      all=JSON.stringify(patient.allergies)
@@ -44,7 +34,6 @@ router.post("/", async (req, res) => {
      sym=JSON.stringify(patient.symptoms)
      fam=JSON.stringify(patient.familyHistory)
      add=JSON.stringify(patient.addictions)
-   //   pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
        pool.query("INSERT INTO Patients (title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms,signature) VALUES ('"+patient.title+"','"+patient.firstName+"','"+patient.middleInitial+"','"+patient.lastName+"','"+patient.phone+"','"+patient.email+"','"+patient.sex+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.cardHolder+"','"+med+"','"+all+"','"+sur+"','"+fam+"','"+add+"','"+que+"','"+sym+"','"+patient.signature+"');" ,(err, rows, fiels) => {  
     if (!err) {
       
@@ -55,7 +44,6 @@ router.post("/", async (req, res) => {
       console.log(err);
     }
   });
-   //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
     }
      else{
       res.status(400).send(result)
@@ -64,6 +52,7 @@ router.post("/", async (req, res) => {
 
 router.put("/", async  (req, res) => {
     var patient= req.body
+    
      result= await validatePatient(patient);
     if (result=="ok"){
      med=JSON.stringify(patient.medications)
@@ -73,10 +62,7 @@ router.put("/", async  (req, res) => {
      sym=JSON.stringify(patient.symptoms)
      fam=JSON.stringify(patient.familyHistory)
      add=JSON.stringify(patient.addictions)
-   //   pool.query("INSERT INTO Patient (modifiedAt,email,firstName,lastName,phone,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,medications,surgeries,familyHistory,addictions,questionnaire,signature,middleInitial) VALUES ('2007-05-08 12:35:29.123','"+patient.email+"','"+patient.firstName+"','"+patient.lastName+"','"+patient.phone+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.medications+"','"+patient.surgeries+"','"+patient.familyHistory+"','"+patient.addictions+"','"+patient.questionnaire+"','"+patient.signature+"','"+patient.middleInitial+"');" ,(err, rows, fiels) => {  
-         //pool.query("UPDATE Patients SET title='"+patient.title+"',firstName='"+patient.firstName+"',middleInitial='"+patient.middleInitial+"',lastName='"+patient.lastName+"',phone='"+patient.phone+"',email='"+patient.email+"',sex='"+patient.sex+"',ssn='"+patient.ssn+"',dateOfBirth='"+patient.dateOfBirth+"',street='"+patient.street+"',city='"+patient.city+"',state='"+patient.state+"',zip='"+patient.zip+"',insuranceCompany='"+patient.insuranceCompany+"',plan='"+patient.plan+"',groupNumber='"+patient.groupNumber+"',cardHolder='"+patient.cardHolder+"',medications='"+patient.medications+"',surgeries='"+patient.surgeries+"',familyHistory='"+patient.familyHistory+"',addictions='"+patient.addictions+"',questionnaire='"+patient.questionnaire+"',symptoms='"+patient.symptoms+"',signature='"+patient.signature+"' WHERE id = '"+patient.id+"';"  ,(err, rows, fiels) => {  
-          //pool.query("INSERT INTO Patients (title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms,signature) VALUES ('"+patient.title+"','"+patient.firstName+"','"+patient.middleInitial+"','"+patient.lastName+"','"+patient.phone+"','"+patient.email+"','"+patient.sex+"','"+patient.ssn+"','"+patient.dateOfBirth+"','"+patient.street+"','"+patient.city+"','"+patient.state+"','"+patient.zip+"','"+patient.insuranceCompany+"','"+patient.plan+"','"+patient.groupNumber+"','"+patient.cardHolder+"','"+med+"','"+all+"','"+sur+"','"+fam+"','"+add+"','"+que+"','"+sym+"','"+patient.signature+"');" ,(err, rows, fiels) => {  
-         pool.query("UPDATE Patients SET title='"+patient.title+"',firstName='"+patient.firstName+"',middleInitial='"+patient.middleInitial+"',lastName='"+patient.lastName+"',phone='"+patient.phone+"',email='"+patient.email+"',sex='"+patient.sex+"',ssn='"+patient.ssn+"',dateOfBirth='"+patient.dateOfBirth+"',street='"+patient.street+"',city='"+patient.city+"',state='"+patient.state+"',zip='"+patient.zip+"',insuranceCompany='"+patient.insuranceCompany+"',plan='"+patient.plan+"',groupNumber='"+patient.groupNumber+"',cardHolder='"+patient.cardHolder+"',medications='"+med+"',allergies='"+ all+"',surgeries='"+sur+"',familyHistory='"+fam+"',addictions='"+add+"',questionnaire='"+que+"',symptoms='"+sym+"',signature='"+patient.signature+"' WHERE id = '"+patient.id+"';"  ,(err, rows, fiels) => {  
+          pool.query("UPDATE Patients SET title='"+patient.title+"',firstName='"+patient.firstName+"',middleInitial='"+patient.middleInitial+"',lastName='"+patient.lastName+"',phone='"+patient.phone+"',email='"+patient.email+"',sex='"+patient.sex+"',ssn='"+patient.ssn+"',dateOfBirth='"+patient.dateOfBirth+"',street='"+patient.street+"',city='"+patient.city+"',state='"+patient.state+"',zip='"+patient.zip+"',insuranceCompany='"+patient.insuranceCompany+"',plan='"+patient.plan+"',groupNumber='"+patient.groupNumber+"',cardHolder='"+patient.cardHolder+"',medications='"+med+"',allergies='"+ all+"',surgeries='"+sur+"',familyHistory='"+fam+"',addictions='"+add+"',questionnaire='"+que+"',symptoms='"+sym+"',signature='"+patient.signature+"' WHERE id = '"+patient.id+"';"  ,(err, rows, fiels) => {  
     
     if (!err) {
       res.json(rows);
@@ -86,33 +72,73 @@ router.put("/", async  (req, res) => {
       console.log(err);
     }
   });
-   //  res.status(201).send("Patient "+patient.firstName+" "+patient.lastName+" has beed added to the patient list.")
-    }
+     }
     else{
       res.status(400).send(result)
     }
 });
 
+
+
 router.delete('/:id',(req,res,next)=> {
     var thisId = req.params;
+     if (typeof(thisId.id) == "undefined"){
+        res.status(404).send('No body in request.')
+     }
+     else {
    
        pool.query("Delete From Patients Where id ="+thisId.id+";",(err, rows, fiels) => {  
     if (!err) {
+      if(rows.affectedRows==0){
+        res.status(400).send('Patient with ID: '+thisId.id+ ' not found.')
+      }
+      else{
+         res.status(200).send('Patient with ID: '+thisId.id+ ' has been deleted.')
+     }
+      console.log(rows.affectedRows);
+    } else {
+      
+      console.log(err);
+    }
+  });}
+  
+});
+
+router.get('/record',async(req,res,next)=> {
+     var contact= req.body
+     
+     if (typeof(contact.id) == "undefined"){
+        res.status(404).send('No body in request.')
+     }
+     else {
+    
+     
+      test = await validateConId(contact.id)
+      val= await validateVal(contact.value)
+      if(val=="err"){
+         res.status(404).send('Please only use paramters title,firstName,middleInitial,lastName,phone,email,sex,ssn,dateOfBirth,street,city,state,zip,insuranceCompany,plan,groupNumber,cardholder,medications,allergies,surgeries,familyHistory,addictions,questionnaire,symptoms,signature title,firstName,middleInitial,lastName,phone,email,sex,dateOfBirth,street,city,state,zip,relationToPatient,type,emergencyPriority,signature. not '+contact.value)
+      }
+      else if(test=="err"){
+        res.status(404).send('Patient with ID: '+contact.id+ ' cannot be retrived.')
+      }
+      else{
+       pool.query("select "+val+" From Patients Where id "+test+";",(err, rows, fiels) => {  
+           if (rows<1)    {
+      res.status(404).send('Patient with ID: '+contact.id+ ' not found.')
+       console.log(fiels);
+    }  else if  (!err) {
       res.json(rows);
       console.log(fiels);
     } else {
       
       console.log(err);
     }
-  });
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
+  });}}
   
 });
 
-
 router.get('/single/:id',(req,res,next)=> {
     var patId = req.params;
-    
    
        pool.query("select * From Patients Where id ="+patId.id+";",(err, rows, fiels) => {  
          
@@ -134,15 +160,14 @@ router.get('/single/:id',(req,res,next)=> {
       console.log(err);
     }
   });
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
-  
+      
 });
 
 router.get('/email/:id',(req,res,next)=> {
     var emailId = req.params;
-   
+     
        pool.query("select * From Patients Where email ='"+emailId.id+"';",(err, rows, fiels) => {  
-         
+         console.log(rows)
     if (rows<1)    {
       res.status(404).send('Patient with email: '+emailId.id+ ' not found.')
        console.log(fiels);
@@ -160,12 +185,10 @@ router.get('/email/:id',(req,res,next)=> {
       console.log(err);
     }
   });
-  //   res.status(201).send("Patient "+thisId.id+" has been deleted from patient list.")
-  
+      
 });
  async function validatePatient(contact) {
-  //result="ok"
-  
+   
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
   }
@@ -204,10 +227,7 @@ router.get('/email/:id',(req,res,next)=> {
      if(validateDob(contact.dateOfBirth)){
    return "Please use only valid date of births not "+ contact.dateOfBirth+"."
    }
- //   if(validateLetters(contact.relationToPatient)){
- //  return "Please use only use letters in relation to patient not "+ contact.relationToPatient+"."
-//   }
-    if(validateLettersNotNull(contact.signature)){
+    if(validateLetters(contact.signature)){
    return "Please use only use letters in signature not "+ contact.signature+"."
    }
      if(validateSSN(contact.ssn)){
@@ -248,10 +268,7 @@ function validateDob(dob) {
     if(dob.match(/(\d{4})-(\d{2})-(\d{2})/)){
      return false
    }
-   // if(!(/^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/.test(dob))){
-   //  return true
-  // }
-   return true
+      return true
 }
 function validateStreet(street) {
   
@@ -395,6 +412,11 @@ function validateLettersNotNull(word) {
 }
 
 function validateMiddleInitial(middleInitial) {
+  
+   if(middleInitial==""){
+     return false
+    }
+   
    
     if(middleInitial.length >1){
      return true
@@ -429,4 +451,118 @@ function validateTitle(title) {
   return true
 }
 
+async function validateConId(contactId) {
+    if(contactId == ""){
+     return "is not null"
+   }
+    if(!(/^[0-9]+$/.test(contactId))){
+     return "err"
+   }
+ 
+  let myPromise = new Promise(function(resolve, reject) {
+    
+    pool.query("select * From Patients Where id ="+contactId+";",(err, rows, fiels) => {  
+    
+     if (!err) {
+     res= JSON.stringify(rows)
+     if  (res[3]==undefined){
+           console.log(res[3])
+         resolve("err")
+         }else
+         {
+           resolve("="+contactId)
+         }
+         }
+    else{
+          
+        }
+         });
+ 
+  });
+       rest =await myPromise;
+       console.log(rest)
+       return rest;
+}
+
+
+function validateVal(val) {
+   if(val==""){
+     return "err"
+   }
+   inp= val.replace(/\s/g, "");
+   input= inp.toLowerCase();
+    if(input=="title"){
+     return input
+   }
+    if(input=="firstname"){
+     return input
+   }
+   if(input=="middleinitial"){
+     return input
+   }
+   if(input=="lastname"){
+     return input
+   }
+   if(input=="phone"){
+     return input
+   }
+   if(input=="email"){
+     return input
+   }
+    if(input=="sex"){
+     return input
+   }
+   if(input=="dateofbirth"){
+     return input
+   }
+   if(input=="street"){
+     return input
+   }
+   if(input=="city"){
+     return input
+   }
+   if(input=="state"){
+     return input
+   }
+    if(input=="zip"){
+     return input
+   }
+    if(input=="insurancecompany"){
+     return input
+   }
+   if(input=="plan"){
+     return input
+   }
+   if(input=="groupnumber"){
+     return input
+   }
+    if(input=="cardholder"){
+     return input
+   }
+   if(input=="questionnaire"){
+     return input
+   }
+    if(input=="symptoms"){
+     return input
+   }
+    if(input=="medications"){
+     return input
+   }
+   if(input=="allergies"){
+     return input
+   }
+   if(input=="surgeries"){
+     return input
+   }
+    if(input=="familyhistory"){
+     return input
+   }
+   if(input=="addictions"){
+     return input
+   }
+   if(input=="signature"){
+     return input
+   }
+  return "err"
+}
 module.exports = router;
