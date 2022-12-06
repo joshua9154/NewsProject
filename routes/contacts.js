@@ -426,7 +426,7 @@ function validatePhone(phone) {
 
 function validateLetters(word) {
   
-    if(!(/^[a-zA-Z]*$/.test(word))){
+    if(!(/^[A-Za-z\s]*$/.test(word))){
      return true
    }
    return false
