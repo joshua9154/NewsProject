@@ -39,8 +39,9 @@ router.get("/", function(req, res, next) {
     async function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log(body);
-         //   result="Thank You, your Contact has been updated "
-              result=body;
+           result="Thank You, your Contact has been updated "
+            //  result=body;
+            //   result= JSON.stringify(body)
               res.render("modResponse", {
              title: "Contact",
               result 
@@ -99,8 +100,9 @@ router.post("/UpdatePatient", async function(req, res, next) {
     async function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log(body);
-           // result="Thank You, your Patient ID is "+body.insertId
-             result=body;
+            result="Thank You, your Patient information has been updated"
+           //  result=body;
+         //   result= JSON.stringify(body)
               res.render("modResponse", {
               title: "Patient",
               result 

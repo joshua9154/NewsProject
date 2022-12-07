@@ -17,13 +17,13 @@ router.get("/", (req, res) => {
         res.send(result)
         console.log(fiels);
     } else {
+        res.status(400).send(err)
       console.log(err);
     }
   });
 });
 router.post("/", async (req, res) => {
      var patient= req.body
-      console.log(patient.length)
     
       result = await validatePatient(patient)
     if ( result=="ok"){
@@ -40,10 +40,9 @@ router.post("/", async (req, res) => {
       res.json(rows);
       console.log(fiels);
     } else {
-      
-      console.log(err);
-    }
-  });
+        res.status(400).send(err)
+         console.log(err);
+    } });
     }
      else{
       res.status(400).send(result)
@@ -68,7 +67,7 @@ router.put("/", async  (req, res) => {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -97,7 +96,7 @@ router.delete('/:id',(req,res,next)=> {
      }
       console.log(rows.affectedRows);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });}
@@ -130,7 +129,7 @@ router.get('/record',async(req,res,next)=> {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });}}
@@ -156,7 +155,7 @@ router.get('/single/:id',(req,res,next)=> {
         res.send(result)
        console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -181,7 +180,7 @@ router.get('/email/:id',(req,res,next)=> {
        res.send(result)
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
