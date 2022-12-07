@@ -259,7 +259,7 @@ router.get('/email/:id',(req,res,next)=> {
     if(validatePhone(contact.phone)){
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
-    var result= await emails(contact.email);
+    var result= await emails(contact);
      
     if(result){
    return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
@@ -389,15 +389,15 @@ function validateSex(sex) {
 }
    
    
-  async function emails(email){
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+  async function emails(contact){
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contact.email)))
   {
     return true
   }
    
   let myPromise = new Promise(function(resolve, reject) {
     
-    pool.query("select * From Patients Where email ='"+email+"';",(err, rows, fiels) => {  
+    pool.query("select * From Patients Where email ='"+contact.email+"'and id !='"+contact.id+"';",(err, rows, fiels) => {  
     
      if (!err) {
      res= JSON.stringify(rows)
