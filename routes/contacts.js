@@ -152,6 +152,9 @@ router.delete('/:id',(req,res,next)=> {
   });
   
   async function validateContact(contact) {
+    if(contact.firstName===undefined){
+       return "Body is undefined"
+    }
  
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
@@ -630,6 +633,7 @@ function validateVal(val) {
 }
 
 function validateTitle(title) {
+   
    input= title.toLowerCase();
     if(input==""){
      return false

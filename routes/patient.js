@@ -187,6 +187,9 @@ router.get('/email/:id',(req,res,next)=> {
       
 });
  async function validatePatient(contact) {
+   if(contact.firstName===undefined){
+       return "Body is undefined"
+    }
    
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
