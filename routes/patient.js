@@ -188,7 +188,7 @@ router.get('/email/:id',(req,res,next)=> {
 });
  async function validatePatient(contact) {
    if(contact.firstName===undefined){
-       return "Body is undefined"
+       return "Body is Undefined"
     }
    
   if(validateTitle(contact.title)){
