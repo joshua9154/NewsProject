@@ -89,7 +89,7 @@ router.get('/patient/:id',(req,res,next)=> {
     
        pool.query("select * From Contacts Where patientId ="+contactId.id+";",(err, rows, fiels) => {  
            if (rows<1)    {
-      res.status(404).send('Contact with ID: '+contactId.id+ ' not found.')
+      res.status(404).send('Contact with Patient ID: '+contactId.id+ ' not found.')
        console.log(fiels);
     }  else if  (!err) {
       res.json(rows);
