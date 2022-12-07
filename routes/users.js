@@ -68,7 +68,7 @@ router.post("/UpdatePatient", async function(req, res, next) {
     request.put(
     'https://dzsqyl-8080.preview.csb.app/patient',
     { json: { 
-      "patientId":patientId,  
+      "id":patientId,  
      "title": title,
      "firstName": firstName,
      "middleInitial": middleInitial,
