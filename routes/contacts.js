@@ -14,7 +14,7 @@ router.post("/",async (req, res) => {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -35,7 +35,7 @@ router.put("/", async(req, res) => {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -75,7 +75,7 @@ router.get('/record',async(req,res,next)=> {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });}
@@ -95,7 +95,7 @@ router.get('/patient/:id',(req,res,next)=> {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -112,7 +112,7 @@ router.get('/single/:id',(req,res,next)=> {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -125,7 +125,7 @@ router.get('/all/',(req,res,next)=> {
       res.json(rows);
       console.log(fiels);
     } else {
-      
+        res.status(400).send(err)
       console.log(err);
     }
   });
@@ -145,7 +145,7 @@ router.delete('/:id',(req,res,next)=> {
       }
       console.log(fiels);
     } else {
-      
+       res.status(400).send(err)
       console.log(err);
     }
   });
@@ -241,17 +241,12 @@ async function validateId(patientId) {
      if  (res[3]==undefined){
            console.log(res[3])
          resolve(true)
-         }else
-         {
-           resolve(false)
-         }
-         }
+         }else {
+           resolve(false)}
+      }
     else{
-          
-        }
-         });
- 
-  });
+           console.log(err) }  });
+            });
        rest =await myPromise;
        console.log(rest)
        return rest;
