@@ -4,6 +4,18 @@ const { DATETIME2 } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
 
+
+const cors = require('cors');
+
+
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+router.use(cors(corsOptions));
+
+
 router.get("/", (req, res) => {
     pool.query("select * from Patients;" ,(err, rows, fiels) => {  
        data=JSON.stringify(rows)
