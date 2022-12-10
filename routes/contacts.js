@@ -1,7 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db/db");
+const cors = require('cors');
 
+
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+router.use(cors(corsOptions));
 
 router.post("/",async (req, res) => {
    var contact= req.body
@@ -152,10 +160,56 @@ router.delete('/:id',(req,res,next)=> {
   });
   
   async function validateContact(contact) {
+    
     if(contact.firstName===undefined){
-       return "Body is undefined"
+       return "Body is Undefined"
     }
- 
+    if(contact.title===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.middleInitial===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.lastName===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.type===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.phone===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.email===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.sex===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.zip===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.state===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.city===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.street===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.dateOfBirth===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.relationToPatient===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.signature===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.emergencyPriority===undefined){
+       return "Body is Undefined"
+    }
+    
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
   }

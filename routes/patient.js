@@ -4,6 +4,18 @@ const { DATETIME2 } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 const pool = require("../db/db");
 
+
+const cors = require('cors');
+
+
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+router.use(cors(corsOptions));
+
+
 router.get("/", (req, res) => {
     pool.query("select * from Patients;" ,(err, rows, fiels) => {  
        data=JSON.stringify(rows)
@@ -187,9 +199,62 @@ router.get('/email/:id',(req,res,next)=> {
       
 });
  async function validatePatient(contact) {
-   if(contact.firstName===undefined){
-       return "Body is undefined"
+  
+     if(contact.middleInitial===undefined){
+       return "Body is Undefined"
     }
+    if(contact.firstName===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.title===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.lastName===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.phone===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.email===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.sex===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.zip===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.state===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.city===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.street===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.dateOfBirth===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.signature===undefined){
+       return "Body is Undefined"
+    }
+       if(contact.ssn===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.plan===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.cardHolder===undefined){
+       return "Body is Undefined"
+    }
+    if(contact.insuranceCompany===undefined){
+       return "Body is Undefined"
+    }
+     if(contact.groupNumber===undefined){
+       return "Body is Undefined"
+    }
+    
    
   if(validateTitle(contact.title)){
     return "Please use titles Dr, Mr, Mrs, Ms or Miss not "+ contact.title+"."
@@ -206,7 +271,7 @@ router.get('/email/:id',(req,res,next)=> {
     if(validatePhone(contact.phone)){
    return "Please use only numbers in phone not "+ contact.phone+"."
    }
-    var result= await emails(contact.email);
+    var result= await emails(contact);
      
     if(result){
    return "Please use only valid email addresses and not a taken one, not "+ contact.email+"."
@@ -270,7 +335,7 @@ function validateDob(dob) {
     if(dob.match(/(\d{4})-(\d{2})-(\d{2})/)){
      return false
    }
-      return true
+   return true
 }
 function validateStreet(street) {
   
@@ -336,15 +401,15 @@ function validateSex(sex) {
 }
    
    
-  async function emails(email){
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+  async function emails(contact){
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contact.email)))
   {
     return true
   }
    
   let myPromise = new Promise(function(resolve, reject) {
     
-    pool.query("select * From Patients Where email ='"+email+"';",(err, rows, fiels) => {  
+    pool.query("select * From Patients Where email ='"+contact.email+"'and id !='"+contact.id+"';",(err, rows, fiels) => {  
     
      if (!err) {
      res= JSON.stringify(rows)
