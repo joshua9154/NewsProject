@@ -15,7 +15,7 @@ router.use(cors(corsOptions));
 
 
 router.get("/", function(req, res, next) {
-   res.render("patientPage", { title: "Patient Intake" });
+   res.render("404", { title: "404" });
  });
  
  
@@ -24,7 +24,7 @@ router.get("/", function(req, res, next) {
     var result=1
      
     request.post(
-    'https://dzsqyl-8080.preview.csb.app/contacts',
+    'https://xlcp1y-8080.preview.csb.app/contacts',
     { json: { 
       "patientId": patientId ,
      "title": title,
@@ -74,7 +74,7 @@ router.post("/Subscribe", async function(req, res, next) {
    var result= 0
    
     request.post(
-    'https://dzsqyl-8080.preview.csb.app/patient',
+    'https://xlcp1y-8080.preview.csb.app/patient',
     { json: { 
      "title": title,
      "firstName": firstName,
@@ -135,13 +135,13 @@ router.post("/GetPatient", async function(req, res, next) {
    var contact= "No Contacts found for Patient with ID "+patientId
    
    
-    request.get('https://dzsqyl-8080.preview.csb.app/patient/single/'+patientId+'',
+    request.get('https://xlcp1y-8080.preview.csb.app/patient/single/'+patientId+'',
     async function (error, response, body) {
         if (!error ) {
             console.log(body);
             result= body
             
-             request.get('https://dzsqyl-8080.preview.csb.app/contacts/patient/'+patientId+'',
+             request.get('https://xlcp1y-8080.preview.csb.app/contacts/patient/'+patientId+'',
     async function (error, response, body) {
         if (!error ) {
             console.log(body);
