@@ -15,12 +15,8 @@ router.use(cors(corsOptions));
 
 
 router.get("/", function(req, res, next) {
-   res.render("404", { title: "404" });
- });
- 
- /*router.get("/", function(req, res, next) {
    res.render("patientPage", { title: "Pateint Page" });
- });*/
+ });
  
  router.post("/Contact", async function(req, res, next) {
     const { patientId, title, firstName, middleInitial, lastName, phone, email, sex, dob, street, city, state, zip, relationToPatient, type, emergencyPriority, signature } = req.body;
