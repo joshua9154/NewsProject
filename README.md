@@ -1,6 +1,6 @@
 # Patient_Intake_API
 
-Patient-Intake Team
+## Patient-Intake Team
 Jasmin Dhorajia - Business analysis and product management
 Joshua Streinerman - Quality and Dev Ops
 Jim Calderon - Data Architect 
